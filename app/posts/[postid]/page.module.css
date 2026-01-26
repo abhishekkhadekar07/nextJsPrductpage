@@ -1,0 +1,50 @@
+/* Styles for single post page */
+.container {
+  padding: 2rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #555;
+  text-decoration: none;
+}
+
+.back:hover {
+  color: #0b5cff;
+}
+
+.content {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #111;
+  line-height: 1.3;
+}
+
+.meta {
+  display: flex;
+  gap: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.body {
+  color: #333;
+  line-height: 1.7;
+  font-size: 1rem;
+  white-space: pre-wrap;
+}

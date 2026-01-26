@@ -1,0 +1,108 @@
+/* Styles for single product page */
+.container {
+  padding: 2rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #555;
+  text-decoration: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 420px 1fr;
+    align-items: start;
+  }
+}
+
+.media {
+  display: flex;
+  justify-content: center;
+}
+
+.imageWrap {
+  width: 100%;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.price {
+  margin: 0;
+  color: #0b5cff;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.rating {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.description {
+  padding: 0.75rem 0;
+  color: #333;
+}
+
+.cartForm {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.qtyLabel {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.qtyInput {
+  width: 80px;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 0.25rem;
+}
+
+.addButton {
+  background: #0b5cff;
+  color: white;
+  border: none;
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
