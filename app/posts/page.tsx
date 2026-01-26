@@ -1,7 +1,13 @@
 import Link from 'next/link';
 import styles from './page.module.css';
-import { fetchPosts } from '../actions/common';
-import { Post } from '../../lib/api';
+import { fetchPosts } from '../actions/posts';
+
+type Post = {
+    id: number;
+    title: string;
+    body: string;
+    userId: number;
+};
 
 export default async function PostsPage(props: { searchParams?: Promise<{ q?: string | string[] }> }) {
     const searchParams = props.searchParams ? await props.searchParams : {};

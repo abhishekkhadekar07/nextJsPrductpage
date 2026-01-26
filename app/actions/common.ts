@@ -1,6 +1,4 @@
 'use server'
-
-import { headers } from 'next/headers';
 import { getPostById } from './posts';
 
 export async function submitFormAction(formData: FormData) {
@@ -12,25 +10,4 @@ export async function submitFormAction(formData: FormData) {
   return { success: true, message: 'Form submitted successfully' };
 }
 
-export async function fetchPosts() {
-  try {
-    // Get the host from headers to construct full URL
-    const headersList = await headers();
-    const host = headersList.get('host') || 'localhost:3000';
-    const protocol = host.includes('localhost') ? 'http' : 'https';
-    const fullUrl = `${protocol}://${host}/api/posts`;
 
-    const response = await fetch(fullUrl);
-    const data = await response.json();
-    console.log('data 123',data);
-    
-    return { data: data, success: true };
-  } catch (e) {
-    console.log('error in fetchPosts', e);
-    return { success: false };
-  }
-}
-
-export async function fetchPostById(id: string | number): Promise<ApiResponse<Post>> {
-  return await getPostById(id);
-}

@@ -1,5 +1,7 @@
 'use server';
 
+import { headers } from "next/headers";
+
 // Manual posts data - stored in memory (shared with API route)
 let posts = [
   {
@@ -96,78 +98,27 @@ export async function getPostById(id: number | string) {
   };
 }
 
-// Create new post
-// export async function createPost(formData: FormData) {
-//   const title = formData.get('title') as string;
-//   const body = formData.get('body') as string;
-//   const userId = formData.get('userId') as string;
+export async function fetchPosts() {
+  try {
+    // Get the host from headers to construct full URL
+    const headersList = await headers();
+    const host = headersList.get('host') || 'localhost:3000';
+    const protocol = host.includes('localhost') ? 'http' : 'https';
+    const fullUrl = `${protocol}://${host}/api/posts`;
 
-//   // Validate required fields
-//   if (!title || !body) {
-//     return {
-//       success: false,
-//       message: 'Title and body are required',
-//       errors: [
-//         !title && 'Title is required',
-//         !body && 'Body is required'
-//       ].filter(Boolean) as string[]
-//     };
-//   }
-
-//   // Validate field lengths
-//   const errors: string[] = [];
-//   if (title.trim().length < 3) {
-//     errors.push('Title must be at least 3 characters');
-//   }
-//   if (title.trim().length > 200) {
-//     errors.push('Title must be less than 200 characters');
-//   }
-//   if (body.trim().length < 10) {
-//     errors.push('Body must be at least 10 characters');
-//   }
-//   if (body.trim().length > 5000) {
-//     errors.push('Body must be less than 5000 characters');
-//   }
-
-//   if (errors.length > 0) {
-//     return {
-//       success: false,
-//       message: 'Validation failed',
-//       errors
-//     };
-//   }
-
-//   // Create new post
-//   const newPost = {
-//     id: nextId++,
-//     title: title.trim(),
-//     body: body.trim(),
-//     userId: userId ? parseInt(userId) : 1,
-//   };
-
-//   // Add to posts array
-//   posts.push(newPost);
-
-//   return {
-//     success: true,
-//     message: 'Post created successfully!',
-//     data: newPost
-//   };
-// }
-
-// Export posts array for API route to use
-export async function getPostsData() {
-  return posts;
+    const response = await fetch(fullUrl,{
+  next: { revalidate: false }
+});
+    const data = await response.json();
+    console.log('data 123',data);
+    
+    return { data: data, success: true };
+  } catch (e) {
+    console.log('error in fetchPosts', e);
+    return { success: false };
+  }
 }
 
-// export function setPostsData(newPosts: typeof posts) {
-//   posts = newPosts;
-// }
-
-// export function getNextId() {
-//   return nextId;
-// }
-
-// export function setNextId(id: number) {
-//   nextId = id;
-// }
+export async function fetchPostById(id: string | number): Promise<ApiResponse<Post>> {
+  return await getPostById(id);
+}
