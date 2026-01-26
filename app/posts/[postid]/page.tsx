@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './page.module.css';
-import { fetchPostById } from '../../../lib/api';
+import { fetchPostById } from '@/app/actions/common';
+// import { fetchPostById } from '../../../lib/api';
 
 export default async function PostPage(props: { params: Promise<{ postid: string }> }) {
     const params = await props.params;

@@ -1,6 +1,7 @@
 'use server'
 
 import { headers } from 'next/headers';
+import { getPostById } from './posts';
 
 export async function submitFormAction(formData: FormData) {
   'use server';
@@ -28,4 +29,8 @@ export async function fetchPosts() {
     console.log('error in fetchPosts', e);
     return { success: false };
   }
+}
+
+export async function fetchPostById(id: string | number): Promise<ApiResponse<Post>> {
+  return await getPostById(id);
 }

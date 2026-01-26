@@ -16,7 +16,7 @@ export default function Navbar() {
 
       <nav className={styles.nav}>
         <Link href="/products" className={styles.link}>Products</Link>
-        {/* <Link href="/posts" className={styles.link}>Posts</Link> */}
+        <Link href="/posts" className={styles.link}>Posts</Link>
         <Link href="/cart" className={styles.link}>Cart ({total})</Link>
       </nav>
      
