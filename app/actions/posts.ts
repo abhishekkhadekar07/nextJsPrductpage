@@ -2,8 +2,23 @@
 
 import { headers } from "next/headers";
 
+// Type definitions
+export interface Post {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
+  error?: string;
+}
+
 // Manual posts data - stored in memory (shared with API route)
-let posts = [
+const posts = [
   {
     id: 1,
     title: 'Getting Started with Next.js',
@@ -121,4 +136,34 @@ export async function fetchPosts() {
 
 export async function fetchPostById(id: string | number): Promise<ApiResponse<Post>> {
   return await getPostById(id);
+}
+
+// Create a new post
+export async function createPost(postData: { title: string; body: string; userId: number }) {
+  try {
+    // Generate new ID (find max current ID and add 1)
+    const maxId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) : 0;
+    const newId = maxId + 1;
+
+    const newPost: Post = {
+      id: newId,
+      title: postData.title,
+      body: postData.body,
+      userId: postData.userId
+    };
+
+    // Add to posts array
+    posts.push(newPost);
+
+    return {
+      success: true,
+      data: newPost,
+      message: 'Post created successfully'
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to create post'
+    };
+  }
 }

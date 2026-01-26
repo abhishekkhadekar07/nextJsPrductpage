@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './page.module.css';
-import { fetchPosts } from '../actions/posts';
+import { getAllPosts } from '../actions/posts';
 
 type Post = {
     id: number;
@@ -13,9 +13,9 @@ export default async function PostsPage(props: { searchParams?: Promise<{ q?: st
     const searchParams = props.searchParams ? await props.searchParams : {};
     const q = typeof searchParams.q === 'string' ? searchParams.q : (searchParams.q?.[0] ?? '');
 
-    // Use API route to get posts
-    const result = await fetchPosts();
-    const posts: Post[] = result.success && result.data && result.data.data ? result.data.data : [];
+    // Use server action to get posts
+    const result = await getAllPosts();
+    const posts: Post[] = result.success && result.data ? result.data : [];
 
     const filtered = q
         ? posts.filter(post => {
@@ -27,6 +27,10 @@ export default async function PostsPage(props: { searchParams?: Promise<{ q?: st
     return (
         <div className={styles.container}>
             <header className={styles.header}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                    <h1 style={{ margin: 0, fontSize: '1.75rem' }}>Posts</h1>
+                    <Link href="/posts/add" className={styles.addButton}>Add Post</Link>
+                </div>
                 <form className={styles.searchForm} method="get" action="/posts">
                     <input
                         name="q"
