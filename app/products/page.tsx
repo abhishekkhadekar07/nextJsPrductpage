@@ -1,19 +1,18 @@
 import Link from 'next/link';
 import styles from './page.module.css';
 import AddToCartButton from '../components/AddToCartButton';
-import { fetchWithCacheMonitoring } from '../../lib/cache-utils';
+import { fetchProducts } from '../actions/products';
 
 export default async function Page(props: any) {
   const searchParams = props.searchParams ? await props.searchParams : {};
   const q = typeof searchParams.q === 'string' ? searchParams.q : (searchParams.q?.[0] ?? '');
 
-  const fakeBase = process.env.NEXT_PUBLIC_FAKEAPI ?? 'https://fakestoreapi.com';
 
-  const cacheResult = await fetchWithCacheMonitoring(`${fakeBase}/products`, {
-    next: { revalidate: 360 }
-  });
+  const cacheResult = await fetchProducts();
 
-  const products: any[] = cacheResult.data || [];
+ console.log('cacheresult',cacheResult.data.data);
+ 
+  const products: any[] = cacheResult.data.data || [];
   const filtered = q
     ? products.filter(p => ((p.title ?? p.name) || '').toString().toLowerCase().includes(q.toLowerCase()))
     : products;
