@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './page.module.css';
-import { getAllPosts } from '../actions/posts';
+import { fetchPosts, getAllPosts } from '../actions/posts';
 
 type Post = {
     id: number;
@@ -14,11 +14,13 @@ export default async function PostsPage(props: { searchParams?: Promise<{ q?: st
     const q = typeof searchParams.q === 'string' ? searchParams.q : (searchParams.q?.[0] ?? '');
 
     // Use server action to get posts
-    const result = await getAllPosts();
-    const posts: Post[] = result.success && result.data ? result.data : [];
+    const result = await fetchPosts();
+    console.log('result 1234', result.data.data);
+    
+    const posts: Post[] = result.success && result.data.data ? result.data.data : [];
 
     const filtered = q
-        ? posts.filter(post => {
+        ? posts?.filter(post => {
             const searchText = `${post.title || ''} ${post.body || ''}`.toLowerCase();
             return searchText.includes(q.toLowerCase());
         })
@@ -48,7 +50,7 @@ export default async function PostsPage(props: { searchParams?: Promise<{ q?: st
                     <p className={styles.empty}>No posts found.</p>
                 ) : (
                     <ul className={styles.grid}>
-                        {filtered.map((post: Post) => (
+                        {filtered?.map((post: Post) => (
                             <li key={post.id} className={styles.card}>
                                 <Link href={`/posts/${post.id}`} className={styles.cardLink}>
                                     <div className={styles.cardBody}>
