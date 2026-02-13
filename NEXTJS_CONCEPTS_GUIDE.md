@@ -1,17 +1,17 @@
 # Next.js Concepts to Learn & Apply in This Project
 
 ## ✅ **Currently Implemented in Your Project**
-
+done
 ### 1. **App Router (Next.js 13+)**
 - ✅ File-based routing (`app/` directory)
 - ✅ Route groups and nested routes
 - ✅ Dynamic routes (`[productid]`, `[postid]`)
-
+done
 ### 2. **Server Components**
 - ✅ Async server components (`async function Page()`)
 - ✅ Server-side data fetching
 - ✅ Direct database/API access from components
-
+done
 ### 3. **Client Components**
 - ✅ `'use client'` directive
 - ✅ Interactive components (forms, buttons)

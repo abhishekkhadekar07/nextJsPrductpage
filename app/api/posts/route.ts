@@ -27,7 +27,6 @@ export async function POST(request: Request) {
 
     // Check content type to handle both JSON and form data
     const contentType = request.headers.get('content-type');
-
     if (contentType?.includes('application/json')) {
       body = await request.json();
     } else if (contentType?.includes('application/x-www-form-urlencoded') ||
