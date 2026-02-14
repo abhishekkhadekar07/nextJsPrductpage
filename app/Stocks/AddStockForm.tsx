@@ -2,6 +2,14 @@
 
 import React, { useState } from 'react';
 
+type AddStockResponse = {
+  stock?: {
+    name?: string;
+    BUY?: number;
+  };
+  message?: string;
+};
+
 export default function AddStockForm() {
   const [name, setName] = useState('');
   const [buy, setBuy] = useState('');
@@ -12,20 +20,20 @@ export default function AddStockForm() {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-    
+
     try {
       const response = await fetch('/api/stocks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, BUY: Number(buy) })
       });
-      const data = await response.json();
+      const data: AddStockResponse = await response.json();
       if (response.ok) {
         const added = data.stock ?? { name, BUY: Number(buy) };
         setMessage('Added: ' + (added.name ?? name));
         setName('');
         setBuy('');
-        // reload the server-rendered page so server fetch (with revalidate) shows updated list
+        // Reload so server-rendered stock list reflects latest data.
         window.location.reload();
       } else {
         setMessage(data.message || 'Failed to add stock');
@@ -47,7 +55,7 @@ export default function AddStockForm() {
         <label style={{ display: 'block' }}>BUY</label>
         <input value={buy} onChange={(e) => setBuy(e.target.value)} required inputMode="numeric" />
       </div>
-      <button type="submit" disabled={loading}>{loading ? 'Adding…' : 'Add Stock'}</button>
+      <button type="submit" disabled={loading}>{loading ? 'Adding...' : 'Add Stock'}</button>
       {message && <div style={{ marginTop: 8 }}>{message}</div>}
     </form>
   );

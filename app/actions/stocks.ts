@@ -23,17 +23,33 @@ export async function fetchStocks() {
       }
     }
 
-export async function addStock(payload: FormData | { name: string; BUY: number }) {
-    try {
-      const response = await fetch('/api/stocks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, BUY: Number(buy) })
-      });
-      const data = await response.json();
-    } catch (err) {
-      
-    } finally {
-     
-    }
+export async function deleteStock(name: string) {
+  const res = await fetch('http://localhost:3000/api/stocks', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name }),
+    cache: 'no-store',
+  });
+
+  return res.json();
+}
+
+
+export async function updateStock(name: string, BUY: number) {
+  const res = await fetch('http://localhost:3000/api/stocks', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, BUY }),
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update stock');
+  }
+
+  return res.json();
 }
