@@ -1,5 +1,5 @@
 export interface CacheResult {
-  data: any;
+  data: unknown;
   cacheStatus: 'HIT' | 'MISS' | 'UNKNOWN';
   duration: number;
   isCacheHit: boolean;
@@ -29,7 +29,7 @@ export async function fetchWithCacheMonitoring(
   }
 
   const raw = await res.text();
-  let data: any = null;
+  let data: unknown = null;
 
   try {
     data = raw ? JSON.parse(raw) : null;

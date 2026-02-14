@@ -4,16 +4,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { removeItem, setQty, clearCart } from '../../store/cartSlice';
 import styles from './page.module.css';
+import type { RootState } from '../../store/store';
+import { normalizeImageUrl } from '../../lib/image-url';
+import SafeImage from '../components/SafeImage';
+
+type CartItem = {
+  id: number | string;
+  title?: string;
+  price?: number;
+  qty?: number;
+  image?: string;
+};
 
 export default function CartPage() {
   const dispatch = useDispatch();
-  const items = useSelector((state: any) => state.cart?.items ?? []);
+  const items = useSelector((state: RootState) => state.cart?.items ?? []) as CartItem[];
 
-  const subtotal = items.reduce((sum: number, item: any) => {
-    return sum + (item.price || 0) * (item.qty || 0);
-  }, 0);
-
-  const totalItems = items.reduce((sum: number, item: any) => sum + (item.qty || 0), 0);
+  const subtotal = items.reduce((sum, item) => sum + (item.price || 0) * (item.qty || 0), 0);
+  const totalItems = items.reduce((sum, item) => sum + (item.qty || 0), 0);
 
   const handleRemove = (id: number | string) => {
     dispatch(removeItem({ id }));
@@ -41,16 +49,8 @@ export default function CartPage() {
         </div>
         <div className={styles.empty}>
           <h2>Your cart is empty</h2>
-          <p>Add some products to get started!</p>
-          <Link href="/products" style={{ 
-            display: 'inline-block', 
-            marginTop: '1rem', 
-            padding: '0.75rem 1.5rem', 
-            background: '#0b5cff', 
-            color: 'white', 
-            textDecoration: 'none', 
-            borderRadius: '6px' 
-          }}>
+          <p>Add some products to get started.</p>
+          <Link href="/products" className={styles.browseLink}>
             Browse Products
           </Link>
         </div>
@@ -61,16 +61,20 @@ export default function CartPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Shopping Cart ({totalItems} {totalItems === 1 ? 'item' : 'items'})</h1>
+        <h1 className={styles.title}>
+          Shopping Cart ({totalItems} {totalItems === 1 ? 'item' : 'items'})
+        </h1>
       </div>
 
       <ul className={styles.cartList}>
-        {items.map((item: any) => (
+        {items.map((item) => (
           <li key={item.id} className={styles.cartItem}>
             {item.image && (
-              <img 
-                src={item.image} 
-                alt={item.title || 'Product'} 
+              <SafeImage
+                src={normalizeImageUrl(item.image, item.title || 'Product')}
+                alt={item.title || 'Product'}
+                width={86}
+                height={86}
                 className={styles.itemImage}
               />
             )}
@@ -85,13 +89,13 @@ export default function CartPage() {
                   onClick={() => handleQuantityChange(item.id, (item.qty || 1) - 1)}
                   aria-label="Decrease quantity"
                 >
-                  −
+                  -
                 </button>
                 <input
                   type="number"
                   min="1"
                   value={item.qty || 1}
-                  onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value) || 1)}
+                  onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value, 10) || 1)}
                   className={styles.quantityInput}
                 />
                 <button
@@ -116,30 +120,17 @@ export default function CartPage() {
 
       <div className={styles.summary}>
         <div className={styles.summaryRow}>
-          <span className={styles.summaryLabel}>Subtotal ({totalItems} {totalItems === 1 ? 'item' : 'items'}):</span>
+          <span className={styles.summaryLabel}>
+            Subtotal ({totalItems} {totalItems === 1 ? 'item' : 'items'}):
+          </span>
           <span className={styles.summaryValue}>${subtotal.toFixed(2)}</span>
         </div>
         <div className={styles.summaryRow}>
           <span className={styles.summaryLabel}>Total:</span>
           <span className={`${styles.summaryValue} ${styles.totalValue}`}>${subtotal.toFixed(2)}</span>
         </div>
-        <button className={styles.checkoutButton}>
-          Proceed to Checkout
-        </button>
-        <button
-          onClick={handleClearCart}
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            marginTop: '0.5rem',
-            background: 'transparent',
-            color: '#e74c3c',
-            border: '1px solid #e74c3c',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '0.9rem'
-          }}
-        >
+        <button className={styles.checkoutButton}>Proceed to Checkout</button>
+        <button onClick={handleClearCart} className={styles.clearButton}>
           Clear Cart
         </button>
       </div>

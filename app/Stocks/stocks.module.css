@@ -1,0 +1,213 @@
+.layoutWrap {
+  width: min(1040px, calc(100% - 1.5rem));
+  margin: 0 auto 2rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.layoutBar {
+  border-radius: 1.1rem;
+  padding: 0.9rem 1rem;
+  background:
+    linear-gradient(125deg, rgba(255, 255, 255, 0.9) 0%, rgba(234, 248, 255, 0.9) 45%, rgba(244, 252, 246, 0.9) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  box-shadow: 0 16px 34px rgba(17, 70, 130, 0.1);
+  color: #143761;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.page {
+  border-radius: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  box-shadow: 0 14px 28px rgba(17, 70, 130, 0.09);
+}
+
+.title {
+  margin: 0;
+  color: #153563;
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.toolbarControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.liveBadge {
+  border-radius: 999px;
+  padding: 0.36rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.liveBadge_off {
+  color: #5f6b81;
+  background: #edf1f8;
+  border-color: #d6deea;
+}
+
+.liveBadge_connecting {
+  color: #8a5a00;
+  background: #fff3d4;
+  border-color: #f0d89f;
+}
+
+.liveBadge_live {
+  color: #0f735e;
+  background: #e7fbf1;
+  border-color: #bce8d3;
+}
+
+.liveBadge_error {
+  color: #a33645;
+  background: #feecef;
+  border-color: #efc3ca;
+}
+
+.toggleButton {
+  border-radius: 999px;
+  padding: 0.42rem 0.82rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.form {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.65rem;
+  max-width: 420px;
+}
+
+.formRow {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.label {
+  font-weight: 700;
+  color: #2a456d;
+  font-size: 0.92rem;
+}
+
+.submitButton {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-weight: 700;
+}
+
+.message {
+  margin-top: 0.45rem;
+  font-size: 0.86rem;
+  color: #506080;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.7rem;
+  align-items: center;
+  border-radius: 0.86rem;
+  border: 1px solid #e2ecfb;
+  background: #ffffff;
+  padding: 0.65rem 0.8rem;
+}
+
+.nameValue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.stockName {
+  font-weight: 700;
+  color: #153563;
+}
+
+.stockValue {
+  color: #0c7b86;
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.editLink {
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.44rem 0.82rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(125deg, #1272e2 0%, #00a6a6 100%);
+}
+
+.deleteButton {
+  border-radius: 999px;
+  padding: 0.42rem 0.78rem;
+  background: linear-gradient(125deg, #e66253 0%, #cc3652 100%);
+  color: #fff;
+  font-size: 0.84rem;
+  font-weight: 700;
+  box-shadow: 0 8px 16px rgba(168, 59, 59, 0.25);
+}
+
+.editForm {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 430px;
+}
+
+.editTitle {
+  margin: 0;
+  color: #163965;
+}
+
+.updateButton {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.56rem 1rem;
+  background: linear-gradient(125deg, #24b36a 0%, #0ea5a5 100%);
+  color: #fff;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+  }
+}

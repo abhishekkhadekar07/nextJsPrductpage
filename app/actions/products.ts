@@ -28,48 +28,93 @@ export interface ApiResponse<T> {
 const products: Product[] = [
   {
     id: 1,
-    title: 'Wireless Headphones',
-    price: 79.99,
-    description: 'High-quality wireless headphones with noise cancellation',
-    image: 'https://via.placeholder.com/300x300?text=Wireless+Headphones',
-    category: 'Electronics',
-    rating: { rate: 4.5, count: 128 }
+    title: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
+    price: 109.95,
+    description: 'Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve.',
+    image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png',
+    category: "men's clothing",
+    rating: { rate: 3.9, count: 120 }
   },
   {
     id: 2,
-    title: 'USB-C Cable',
-    price: 12.99,
-    description: 'Durable USB-C charging and data transfer cable',
-    image: 'https://via.placeholder.com/300x300?text=USB-C+Cable',
-    category: 'Accessories',
-    rating: { rate: 4.8, count: 456 }
+    title: 'Mens Casual Premium Slim Fit T-Shirts ',
+    price: 22.3,
+    description: 'Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight and soft fabric for breathable comfort.',
+    image: 'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png',
+    category: "men's clothing",
+    rating: { rate: 4.1, count: 259 }
   },
   {
     id: 3,
-    title: 'Portable Phone Stand',
-    price: 15.99,
-    description: 'Adjustable and foldable phone stand for all devices',
-    image: 'https://via.placeholder.com/300x300?text=Phone+Stand',
-    category: 'Accessories',
-    rating: { rate: 4.3, count: 89 }
+    title: 'Mens Cotton Jacket',
+    price: 55.99,
+    description: 'Great outerwear jacket for Spring/Autumn/Winter and suitable for work, hiking, camping, cycling, traveling and other outdoor use.',
+    image: 'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png',
+    category: "men's clothing",
+    rating: { rate: 4.7, count: 500 }
   },
   {
     id: 4,
-    title: 'Screen Protector',
-    price: 9.99,
-    description: 'Tempered glass screen protector with high clarity',
-    image: 'https://via.placeholder.com/300x300?text=Screen+Protector',
-    category: 'Accessories',
-    rating: { rate: 4.6, count: 234 }
+    title: 'Mens Casual Slim Fit',
+    price: 15.99,
+    description: 'Please note body builds vary by person, so detailed size information should be reviewed before purchase.',
+    image: 'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_t.png',
+    category: "men's clothing",
+    rating: { rate: 2.1, count: 430 }
   },
   {
     id: 5,
-    title: 'Wireless Charger',
-    price: 29.99,
-    description: 'Fast wireless charging pad for compatible devices',
-    image: 'https://via.placeholder.com/300x300?text=Wireless+Charger',
-    category: 'Electronics',
-    rating: { rate: 4.7, count: 567 }
+    title: "John Hardy Women's Legends Naga Gold and Silver Dragon Bracelet",
+    price: 695,
+    description: 'From the Legends collection, inspired by the mythical water dragon that protects the ocean pearl.',
+    image: 'https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_t.png',
+    category: 'jewelery',
+    rating: { rate: 4.6, count: 400 }
+  },
+  {
+    id: 6,
+    title: 'Solid Gold Petite Micropave',
+    price: 168,
+    description: 'Delicate ring design with premium polish and long-lasting finish.',
+    image: 'https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_t.png',
+    category: 'jewelery',
+    rating: { rate: 3.9, count: 70 }
+  },
+  {
+    id: 7,
+    title: 'White Gold Plated Princess',
+    price: 9.99,
+    description: 'Classic wedding and engagement style ring designed for daily wear.',
+    image: 'https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_t.png',
+    category: 'jewelery',
+    rating: { rate: 3, count: 400 }
+  },
+  {
+    id: 8,
+    title: 'Pierced Owl Rose Gold Plated Stainless Steel Double',
+    price: 10.99,
+    description: 'Rose-gold plated double flared tunnel plug earrings in stainless steel.',
+    image: 'https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_t.png',
+    category: 'jewelery',
+    rating: { rate: 1.9, count: 100 }
+  },
+  {
+    id: 9,
+    title: 'WD 2TB Elements Portable External Hard Drive - USB 3.0',
+    price: 64,
+    description: 'Portable external hard drive with USB 3.0/2.0 compatibility and fast transfers.',
+    image: 'https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_t.png',
+    category: 'electronics',
+    rating: { rate: 3.3, count: 203 }
+  },
+  {
+    id: 10,
+    title: 'SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s',
+    price: 109,
+    description: 'Faster boot and app load times with balanced performance and reliability.',
+    image: 'https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_t.png',
+    category: 'electronics',
+    rating: { rate: 2.9, count: 470 }
   }
 ];
 

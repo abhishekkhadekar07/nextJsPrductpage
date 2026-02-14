@@ -2,19 +2,33 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import AddToCartButton from '../components/AddToCartButton';
 import { fetchProducts } from '../actions/products';
+import { normalizeImageUrl } from '../../lib/image-url';
+import SafeImage from '../components/SafeImage';
 
-export default async function Page(props: any) {
+type Product = {
+  id: number | string;
+  title?: string;
+  name?: string;
+  price?: number;
+  image?: string;
+  rating?: {
+    rate?: number;
+    count?: number;
+  };
+};
+
+type ProductsPageProps = {
+  searchParams?: Promise<{ q?: string | string[] }>;
+};
+
+export default async function Page(props: ProductsPageProps) {
   const searchParams = props.searchParams ? await props.searchParams : {};
   const q = typeof searchParams.q === 'string' ? searchParams.q : (searchParams.q?.[0] ?? '');
 
-
   const cacheResult = await fetchProducts();
-
- console.log('cacheresult',cacheResult.data.data);
- 
-  const products: any[] = cacheResult.data.data || [];
+  const products: Product[] = cacheResult?.data?.data || [];
   const filtered = q
-    ? products.filter(p => ((p.title ?? p.name) || '').toString().toLowerCase().includes(q.toLowerCase()))
+    ? products.filter((p) => ((p.title ?? p.name) || '').toLowerCase().includes(q.toLowerCase()))
     : products;
 
   return (
@@ -38,18 +52,24 @@ export default async function Page(props: any) {
           <p className={styles.empty}>No products found.</p>
         ) : (
           <ul className={styles.grid}>
-            {filtered.map((p: any) => (
+            {filtered.map((p) => (
               <li key={p.id} className={styles.card}>
                 <Link href={`/products/${p.id}`} className={styles.cardLink}>
                   <div className={styles.imageWrap}>
-                    <img src={p.image} alt={p.title ?? p.name ?? 'Product image'} className={styles.image} />
+                    <SafeImage
+                      src={normalizeImageUrl(p.image, p.title ?? p.name ?? 'Product')}
+                      alt={p.title ?? p.name ?? 'Product image'}
+                      fill
+                      className={styles.image}
+                      sizes="(min-width: 980px) 33vw, (min-width: 660px) 50vw, 100vw"
+                    />
                   </div>
                   <div className={styles.cardBody}>
                     <h3 className={styles.productTitle}>{p.title ?? p.name}</h3>
                     <p className={styles.price}>${p.price?.toFixed?.(2) ?? ''}</p>
                     <AddToCartButton product={p} />
                     {p.rating?.rate !== undefined && (
-                      <p className={styles.rating}>⭐ {p.rating.rate} ({p.rating.count})</p>
+                      <p className={styles.rating}>Rating: {p.rating.rate} ({p.rating.count})</p>
                     )}
                   </div>
                 </Link>

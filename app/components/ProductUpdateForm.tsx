@@ -1,17 +1,6 @@
 'use client';
 
-/**
- * Product Update Form Component
- * 
- * This form demonstrates:
- * 1. Client-side validation (before sending to API)
- * 2. Form state management
- * 3. Error handling and display
- * 4. Success/error messages
- * 5. Loading states
- */
-
-import { useState, FormEvent } from 'react';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
 import styles from './ProductUpdateForm.module.css';
 
 interface FormErrors {
@@ -26,11 +15,10 @@ interface ApiResponse {
   success: boolean;
   message: string;
   errors?: string[];
-  data?: any;
+  data?: unknown;
 }
 
 export default function ProductUpdateForm() {
-  // Form state
   const [formData, setFormData] = useState({
     title: '',
     price: '',
@@ -38,28 +26,24 @@ export default function ProductUpdateForm() {
     category: ''
   });
 
-  // Validation and UI state
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  // Client-side validation
   function validateForm(): boolean {
     const newErrors: FormErrors = {};
 
-    // Validate title
     if (!formData.title.trim()) {
       newErrors.title = 'Title is required';
     } else if (formData.title.length > 100) {
       newErrors.title = 'Title must be less than 100 characters';
     }
 
-    // Validate price
     if (!formData.price.trim()) {
       newErrors.price = 'Price is required';
     } else {
       const priceNum = parseFloat(formData.price);
-      if (isNaN(priceNum)) {
+      if (Number.isNaN(priceNum)) {
         newErrors.price = 'Price must be a valid number';
       } else if (priceNum < 0) {
         newErrors.price = 'Price cannot be negative';
@@ -68,12 +52,10 @@ export default function ProductUpdateForm() {
       }
     }
 
-    // Validate description (optional but if provided, must be valid)
     if (formData.description && formData.description.length > 500) {
       newErrors.description = 'Description must be less than 500 characters';
     }
 
-    // Validate category
     if (!formData.category.trim()) {
       newErrors.category = 'Category is required';
     }
@@ -82,13 +64,11 @@ export default function ProductUpdateForm() {
     return Object.keys(newErrors).length === 0;
   }
 
-  // Handle form submission
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitMessage(null);
     setErrors({});
 
-    // Client-side validation
     if (!validateForm()) {
       setSubmitMessage({ type: 'error', text: 'Please fix the errors below' });
       return;
@@ -97,7 +77,6 @@ export default function ProductUpdateForm() {
     setIsSubmitting(true);
 
     try {
-      // Prepare data for API
       const apiData = {
         title: formData.title.trim(),
         price: parseFloat(formData.price),
@@ -105,7 +84,6 @@ export default function ProductUpdateForm() {
         category: formData.category.trim()
       };
 
-      // Send POST request to API
       const response = await fetch('/api/products', {
         method: 'POST',
         headers: {
@@ -117,35 +95,26 @@ export default function ProductUpdateForm() {
       const result: ApiResponse = await response.json();
 
       if (result.success) {
-        // Success!
-        setSubmitMessage({ 
-          type: 'success', 
-          text: result.message || 'Product updated successfully!' 
+        setSubmitMessage({
+          type: 'success',
+          text: result.message || 'Product updated successfully.'
         });
-        
-        // Reset form
         setFormData({
           title: '',
           price: '',
           description: '',
           category: ''
         });
+      } else if (result.errors && result.errors.length > 0) {
+        setErrors({ general: result.errors.join(', ') });
+        setSubmitMessage({ type: 'error', text: result.message || 'Validation failed' });
       } else {
-        // Server-side validation errors
-        if (result.errors && result.errors.length > 0) {
-          // Map server errors to form fields if possible
-          const serverErrors: FormErrors = { general: result.errors.join(', ') };
-          setErrors(serverErrors);
-          setSubmitMessage({ type: 'error', text: result.message || 'Validation failed' });
-        } else {
-          setSubmitMessage({ type: 'error', text: result.message || 'Failed to update product' });
-        }
+        setSubmitMessage({ type: 'error', text: result.message || 'Failed to update product' });
       }
     } catch (err) {
-      // Network or other errors
-      setSubmitMessage({ 
-        type: 'error', 
-        text: 'Network error. Please try again later.' 
+      setSubmitMessage({
+        type: 'error',
+        text: 'Network error. Please try again later.'
       });
       console.error('Form submission error:', err);
     } finally {
@@ -153,17 +122,14 @@ export default function ProductUpdateForm() {
     }
   }
 
-  // Handle input changes
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+  function handleChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear error for this field when user starts typing
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
-    
-    // Clear success message when user starts editing
+
     if (submitMessage?.type === 'success') {
       setSubmitMessage(null);
     }
@@ -173,26 +139,23 @@ export default function ProductUpdateForm() {
     <div className={styles.formContainer}>
       <h2 className={styles.title}>Update Product</h2>
       <p className={styles.subtitle}>
-        Fill out the form below to update product information. 
-        All fields are validated both on the client and server.
+        Fill out the form to update product information.
+        All fields are validated on client and server.
       </p>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        {/* Success/Error Message */}
         {submitMessage && (
           <div className={`${styles.message} ${styles[submitMessage.type]}`}>
-            {submitMessage.type === 'success' ? '✅' : '❌'} {submitMessage.text}
+            {submitMessage.type === 'success' ? '[OK]' : '[ERROR]'} {submitMessage.text}
           </div>
         )}
 
-        {/* General Error Message */}
         {errors.general && (
           <div className={`${styles.message} ${styles.error}`}>
-            ❌ {errors.general}
+            [ERROR] {errors.general}
           </div>
         )}
 
-        {/* Title Field */}
         <div className={styles.field}>
           <label htmlFor="title" className={styles.label}>
             Product Title <span className={styles.required}>*</span>
@@ -207,12 +170,9 @@ export default function ProductUpdateForm() {
             placeholder="Enter product title"
             disabled={isSubmitting}
           />
-          {errors.title && (
-            <span className={styles.errorText}>{errors.title}</span>
-          )}
+          {errors.title && <span className={styles.errorText}>{errors.title}</span>}
         </div>
 
-        {/* Price Field */}
         <div className={styles.field}>
           <label htmlFor="price" className={styles.label}>
             Price ($) <span className={styles.required}>*</span>
@@ -230,12 +190,9 @@ export default function ProductUpdateForm() {
             max="10000"
             disabled={isSubmitting}
           />
-          {errors.price && (
-            <span className={styles.errorText}>{errors.price}</span>
-          )}
+          {errors.price && <span className={styles.errorText}>{errors.price}</span>}
         </div>
 
-        {/* Category Field */}
         <div className={styles.field}>
           <label htmlFor="category" className={styles.label}>
             Category <span className={styles.required}>*</span>
@@ -256,12 +213,9 @@ export default function ProductUpdateForm() {
             <option value="toys">Toys</option>
             <option value="sports">Sports</option>
           </select>
-          {errors.category && (
-            <span className={styles.errorText}>{errors.category}</span>
-          )}
+          {errors.category && <span className={styles.errorText}>{errors.category}</span>}
         </div>
 
-        {/* Description Field */}
         <div className={styles.field}>
           <label htmlFor="description" className={styles.label}>
             Description (Optional)
@@ -277,20 +231,11 @@ export default function ProductUpdateForm() {
             maxLength={500}
             disabled={isSubmitting}
           />
-          <div className={styles.charCount}>
-            {formData.description.length} / 500 characters
-          </div>
-          {errors.description && (
-            <span className={styles.errorText}>{errors.description}</span>
-          )}
+          <div className={styles.charCount}>{formData.description.length} / 500 characters</div>
+          {errors.description && <span className={styles.errorText}>{errors.description}</span>}
         </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className={styles.submitButton}
-          disabled={isSubmitting}
-        >
+        <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
           {isSubmitting ? 'Updating...' : 'Update Product'}
         </button>
       </form>

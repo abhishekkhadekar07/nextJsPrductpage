@@ -2,7 +2,9 @@
 
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { updateStock } from '@/app/actions/stocks';
+import { useDispatch } from 'react-redux';
+import { updateStock } from '../../../../store/stocksSlice';
+import styles from '../../stocks.module.css';
 
 type Stock = {
   name: string;
@@ -14,24 +16,25 @@ type UpdateFormProps = {
 };
 
 export default function UpdateForm({ stock }: UpdateFormProps) {
-  const [buy, setBuy] = useState(stock.BUY);
+  const dispatch = useDispatch();
   const router = useRouter();
+  const [buy, setBuy] = useState(stock.BUY);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await updateStock(stock.name, buy);
-    router.push('/Stocks'); // go back after update
+    dispatch(updateStock({ name: stock.name, BUY: buy }));
+    router.push('/Stocks');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Name:</label>
+    <form onSubmit={handleSubmit} className={styles.editForm}>
+      <div className={styles.formRow}>
+        <label className={styles.label}>Name</label>
         <input value={stock.name} disabled />
       </div>
 
-      <div style={{ marginTop: 10 }}>
-        <label>BUY:</label>
+      <div className={styles.formRow}>
+        <label className={styles.label}>BUY</label>
         <input
           type="number"
           value={buy}
@@ -39,16 +42,7 @@ export default function UpdateForm({ stock }: UpdateFormProps) {
         />
       </div>
 
-      <button
-        type="submit"
-        style={{
-          marginTop: 15,
-          background: 'green',
-          color: 'white',
-          padding: '6px 12px',
-          border: 'none'
-        }}
-      >
+      <button type="submit" className={styles.updateButton}>
         Update Stock
       </button>
     </form>

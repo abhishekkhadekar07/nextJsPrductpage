@@ -1,33 +1,29 @@
 import { NextResponse } from 'next/server';
 
+const stocks = [
+  { name: 'HDFC', BUY: 922 },
+  { name: 'CONCOR', BUY: 511 },
+  { name: 'NIFTYBEES', BUY: 293 },
+  { name: 'RELIANCE', BUY: 2865 },
+  { name: 'TCS', BUY: 4120 },
+  { name: 'INFY', BUY: 1698 },
+  { name: 'ICICIBANK', BUY: 1214 },
+  { name: 'SBIN', BUY: 798 },
+  { name: 'ITC', BUY: 468 },
+  { name: 'LT', BUY: 3745 },
+  { name: 'AXISBANK', BUY: 1128 },
+  { name: 'BAJFINANCE', BUY: 7320 },
+];
 
-// GET - Fetch all products
-const stocks =  [
-        {
-            name: 'HDFC',
-            BUY: 922
-        },
-        {
-            name: 'CONCOR',
-            BUY: 511
-        },
-        {
-            name:'NIFTYBEES',
-            BUY:293
-        },
-
-]
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    console.log('request for stocks url', request);
-    const result = stocks;
-    return NextResponse.json(result);
+    return NextResponse.json(stocks);
   } catch (error) {
     return NextResponse.json(
       {
         success: false,
-        message: error instanceof Error ? error.message : 'Failed to fetch products',
-        error: String(error)
+        message: error instanceof Error ? error.message : 'Failed to fetch stocks',
+        error: String(error),
       },
       { status: 500 }
     );
@@ -36,10 +32,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    console.log('request post for stocks url', request);
     const body = await request.json();
-    console.log('Body',body);
- 
     if (
       !body ||
       typeof body.name !== 'string' ||
@@ -67,8 +60,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: error instanceof Error ? error.message : 'Failed to fetch products',
-        error: String(error)
+        message: error instanceof Error ? error.message : 'Failed to create stock',
+        error: String(error),
       },
       { status: 500 }
     );
@@ -77,9 +70,7 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    console.log('request delete for stocks url', request);
     const body = await request.json();
-    console.log('Body delete', body);
 
     if (!body || typeof body.name !== 'string') {
       return NextResponse.json(
@@ -100,7 +91,6 @@ export async function DELETE(request: Request) {
     }
 
     const deletedStock = stocks.splice(index, 1);
-
     return NextResponse.json(
       {
         success: true,
@@ -114,10 +104,7 @@ export async function DELETE(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message:
-          error instanceof Error
-            ? error.message
-            : 'Failed to delete stock',
+        message: error instanceof Error ? error.message : 'Failed to delete stock',
         error: String(error),
       },
       { status: 500 }
@@ -127,9 +114,7 @@ export async function DELETE(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    console.log('request put for stocks url', request);
     const body = await request.json();
-    console.log('Body put', body);
 
     if (
       !body ||
@@ -143,7 +128,6 @@ export async function PUT(request: Request) {
     }
 
     const buyValue = typeof body.BUY === 'number' ? body.BUY : Number(body.BUY);
-
     if (Number.isNaN(buyValue)) {
       return NextResponse.json(
         { success: false, message: 'BUY must be a number' },
@@ -162,9 +146,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    // ✅ Update value
     stock.BUY = buyValue;
-
     return NextResponse.json(
       {
         success: true,
@@ -174,15 +156,11 @@ export async function PUT(request: Request) {
       },
       { status: 200 }
     );
-
   } catch (error) {
     return NextResponse.json(
       {
         success: false,
-        message:
-          error instanceof Error
-            ? error.message
-            : 'Failed to update stock',
+        message: error instanceof Error ? error.message : 'Failed to update stock',
         error: String(error),
       },
       { status: 500 }

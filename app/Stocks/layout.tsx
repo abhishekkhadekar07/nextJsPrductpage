@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import styles from './stocks.module.css';
 
 export const metadata: Metadata = {
   title: "stocks",
@@ -12,9 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <h1>stocks navbar</h1>
+    <div className={styles.layoutWrap}>
+      <div className={styles.layoutBar}>Stocks Dashboard</div>
       {children}
-    </>
+    </div>
   );
 }

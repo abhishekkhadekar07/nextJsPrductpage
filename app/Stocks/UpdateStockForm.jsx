@@ -1,46 +1,38 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { updateStock } from '../actions/stocks';
-import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { updateStock } from '../../store/stocksSlice';
+import styles from './stocks.module.css';
 
 export default function UpdateStockForm({
   name,
   currentBUY,
 }) {
+  const dispatch = useDispatch();
   const [buy, setBuy] = useState(currentBUY);
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   const handleUpdate = () => {
-    startTransition(async () => {
-      await updateStock(name, buy);
-      router.refresh(); // refresh server component
+    startTransition(() => {
+      dispatch(updateStock({ name, BUY: buy }));
     });
   };
 
   return (
-    <>
+    <div className={styles.actions}>
       <input
         type="number"
         value={buy}
         onChange={(e) => setBuy(Number(e.target.value))}
-        style={{ marginLeft: 10, width: 80 }}
       />
       <button
         onClick={handleUpdate}
         disabled={isPending}
-        style={{
-          marginLeft: 5,
-          background: 'green',
-          color: 'white',
-          border: 'none',
-          padding: '4px 8px',
-          cursor: 'pointer'
-        }}
+        className={styles.updateButton}
       >
         {isPending ? 'Updating...' : 'Update'}
       </button>
-    </>
+    </div>
   );
 }

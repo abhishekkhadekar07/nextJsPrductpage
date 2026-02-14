@@ -1,27 +1,22 @@
 'use client';
 
-import { useTransition } from 'react';
-import { deleteStock } from '../actions/stocks';
-import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { deleteStock } from '../../store/stocksSlice';
+import styles from './stocks.module.css';
 
 export default function DeleteStockButton({ name }) {
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleDelete = () => {
-    startTransition(async () => {
-      await deleteStock(name);
-      router.refresh(); // re-fetch server component
-    });
+    dispatch(deleteStock({ name }));
   };
 
   return (
     <button
       onClick={handleDelete}
-      disabled={isPending}
-      style={{ marginLeft: 10 }}
+      className={styles.deleteButton}
     >
-      {isPending ? 'Deleting...' : 'Delete'}
+      Delete
     </button>
   );
 }

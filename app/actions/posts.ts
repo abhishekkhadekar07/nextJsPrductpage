@@ -80,10 +80,34 @@ const posts = [
     userId: 5
   },
   {
-    id: 12,
-    title: 'Testing in Next.js',
-    body: 'Vercel is the easiest way to deploy Next.js applications. It provides automatic deployments, preview environments, and excellent performance optimizations out of the box.',
+    id: 11,
+    title: 'State Management with Redux Toolkit',
+    body: 'Redux Toolkit reduces boilerplate by providing createSlice, Immer-powered reducers, and predictable store configuration.',
     userId: 6
+  },
+  {
+    id: 12,
+    title: 'Route Groups and Nested Layouts',
+    body: 'Route groups help organize app routes without changing URL structure, while nested layouts keep shared UI consistent across sections.',
+    userId: 6
+  },
+  {
+    id: 13,
+    title: 'Streaming UI with Suspense',
+    body: 'Streaming sends HTML in chunks, so users can start reading content while slower sections continue loading in parallel.',
+    userId: 7
+  },
+  {
+    id: 14,
+    title: 'Migrating to the App Router',
+    body: 'A gradual migration works best. Move a route at a time, keep stable modules untouched, and validate behavior after each step.',
+    userId: 7
+  },
+  {
+    id: 15,
+    title: 'Testing with Seed Data',
+    body: 'Seed data helps QA teams validate list, detail, search, and form states without relying on unstable external APIs.',
+    userId: 8
   }
 ];
 
