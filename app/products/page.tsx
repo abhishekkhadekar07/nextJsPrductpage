@@ -1,9 +1,12 @@
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import styles from './page.module.css';
 import AddToCartButton from '../components/AddToCartButton';
 import { fetchProducts } from '../actions/products';
 import { normalizeImageUrl } from '../../lib/image-url';
 import SafeImage from '../components/SafeImage';
+import { AUTH_COOKIE_NAME } from '../../lib/auth';
 
 type Product = {
   id: number | string;
@@ -22,6 +25,11 @@ type ProductsPageProps = {
 };
 
 export default async function Page(props: ProductsPageProps) {
+  const authCookie = (await cookies()).get(AUTH_COOKIE_NAME);
+  if (!authCookie?.value) {
+    redirect('/login?from=/products');
+  }
+
   const searchParams = props.searchParams ? await props.searchParams : {};
   const q = typeof searchParams.q === 'string' ? searchParams.q : (searchParams.q?.[0] ?? '');
 
@@ -34,7 +42,10 @@ export default async function Page(props: ProductsPageProps) {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1 className={styles.title}>Products</h1>
+        <div className={styles.headerTop}>
+          <h1 className={styles.title}>Products</h1>
+          <Link href="/products/add" className={styles.addLink}>Add Product</Link>
+        </div>
         <form className={styles.searchForm} method="get" action="/products">
           <input
             name="q"

@@ -64,6 +64,43 @@
   transform: translateY(-1px);
 }
 
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.authBadge {
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(21, 101, 216, 0.12);
+  color: #18407a;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1px solid rgba(21, 101, 216, 0.2);
+}
+
+.authButton {
+  text-decoration: none;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border: 1px solid rgba(17, 70, 130, 0.18);
+  background: rgba(255, 255, 255, 0.9);
+  color: #123661;
+  box-shadow: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.authButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(14, 52, 109, 0.15);
+  background: rgba(240, 248, 255, 0.95);
+}
+
 @media (max-width: 680px) {
   .container {
     top: 0.5rem;
@@ -85,5 +122,9 @@
   .link {
     padding: 0.45rem 0.68rem;
     font-size: 0.88rem;
+  }
+
+  .authBadge {
+    font-size: 0.76rem;
   }
 }

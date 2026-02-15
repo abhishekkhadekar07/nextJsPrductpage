@@ -96,6 +96,12 @@
   margin-top: -0.2rem;
 }
 
+.helperText {
+  font-size: 0.84rem;
+  color: #6a7590;
+  margin-top: -0.2rem;
+}
+
 .errorText {
   color: #ca3853;
   font-size: 0.85rem;

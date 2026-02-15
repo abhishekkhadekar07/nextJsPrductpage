@@ -1,9 +1,21 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { getAllProducts, createProduct } from '../../actions/products';
+import { AUTH_COOKIE_NAME } from '../../../lib/auth';
 
 // GET - Fetch all products
 export async function GET(request: Request) {
   try {
+    const authCookie = (await cookies()).get(AUTH_COOKIE_NAME);
+    if (!authCookie?.value) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Unauthorized'
+        },
+        { status: 401 }
+      );
+    }
     console.log('request for products', request);
     const result = await getAllProducts();
     return NextResponse.json(result);
@@ -22,6 +34,16 @@ export async function GET(request: Request) {
 // POST - Create a new product
 export async function POST(request: Request) {
   try {
+    const authCookie = (await cookies()).get(AUTH_COOKIE_NAME);
+    if (!authCookie?.value) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Unauthorized'
+        },
+        { status: 401 }
+      );
+    }
     let body: { title?: string; price?: string | number; description?: string; image?: string; category?: string } = {};
 
     // Check content type to handle both JSON and form data

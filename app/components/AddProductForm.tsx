@@ -1,28 +1,36 @@
 'use client';
 
 import { useState, type ChangeEvent, type FormEvent } from 'react';
-import styles from './ProductUpdateForm.module.css';
+import { useRouter } from 'next/navigation';
+import styles from './AddProductForm.module.css';
 
 interface FormErrors {
   title?: string;
   price?: string;
   description?: string;
+  image?: string;
   category?: string;
   general?: string;
 }
 
 interface ApiResponse {
   success: boolean;
-  message: string;
+  message?: string;
   errors?: string[];
   data?: unknown;
 }
 
-export default function ProductUpdateForm() {
+type AddProductFormProps = {
+  redirectTo?: string;
+};
+
+export default function AddProductForm({ redirectTo = '/products' }: AddProductFormProps) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     title: '',
     price: '',
     description: '',
+    image: '',
     category: ''
   });
 
@@ -56,6 +64,23 @@ export default function ProductUpdateForm() {
       newErrors.description = 'Description must be less than 500 characters';
     }
 
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required';
+    }
+
+    if (!formData.image.trim()) {
+      newErrors.image = 'Image URL is required';
+    } else {
+      try {
+        const parsed = new URL(formData.image);
+        if (!['http:', 'https:'].includes(parsed.protocol)) {
+          newErrors.image = 'Image URL must start with http:// or https://';
+        }
+      } catch {
+        newErrors.image = 'Image URL must be a valid URL';
+      }
+    }
+
     if (!formData.category.trim()) {
       newErrors.category = 'Category is required';
     }
@@ -80,7 +105,8 @@ export default function ProductUpdateForm() {
       const apiData = {
         title: formData.title.trim(),
         price: parseFloat(formData.price),
-        description: formData.description.trim() || undefined,
+        description: formData.description.trim(),
+        image: formData.image.trim(),
         category: formData.category.trim()
       };
 
@@ -95,21 +121,13 @@ export default function ProductUpdateForm() {
       const result: ApiResponse = await response.json();
 
       if (result.success) {
-        setSubmitMessage({
-          type: 'success',
-          text: result.message || 'Product updated successfully.'
-        });
-        setFormData({
-          title: '',
-          price: '',
-          description: '',
-          category: ''
-        });
+        router.push(redirectTo);
+        return;
       } else if (result.errors && result.errors.length > 0) {
         setErrors({ general: result.errors.join(', ') });
         setSubmitMessage({ type: 'error', text: result.message || 'Validation failed' });
       } else {
-        setSubmitMessage({ type: 'error', text: result.message || 'Failed to update product' });
+        setSubmitMessage({ type: 'error', text: result.message || 'Failed to add product' });
       }
     } catch (err) {
       setSubmitMessage({
@@ -137,9 +155,9 @@ export default function ProductUpdateForm() {
 
   return (
     <div className={styles.formContainer}>
-      <h2 className={styles.title}>Update Product</h2>
+      <h2 className={styles.title}>Add Product</h2>
       <p className={styles.subtitle}>
-        Fill out the form to update product information.
+        Create a new product entry to add to the catalog.
         All fields are validated on client and server.
       </p>
 
@@ -217,8 +235,26 @@ export default function ProductUpdateForm() {
         </div>
 
         <div className={styles.field}>
+          <label htmlFor="image" className={styles.label}>
+            Image URL <span className={styles.required}>*</span>
+          </label>
+          <input
+            type="url"
+            id="image"
+            name="image"
+            value={formData.image}
+            onChange={handleChange}
+            className={`${styles.input} ${errors.image ? styles.inputError : ''}`}
+            placeholder="https://placehold.co/600x400"
+            disabled={isSubmitting}
+          />
+          <span className={styles.helperText}>Tip: Use a `placehold.co` or `fakestoreapi.com` image URL.</span>
+          {errors.image && <span className={styles.errorText}>{errors.image}</span>}
+        </div>
+
+        <div className={styles.field}>
           <label htmlFor="description" className={styles.label}>
-            Description (Optional)
+            Description <span className={styles.required}>*</span>
           </label>
           <textarea
             id="description"
@@ -236,7 +272,7 @@ export default function ProductUpdateForm() {
         </div>
 
         <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-          {isSubmitting ? 'Updating...' : 'Update Product'}
+          {isSubmitting ? 'Adding...' : 'Add Product'}
         </button>
       </form>
     </div>
