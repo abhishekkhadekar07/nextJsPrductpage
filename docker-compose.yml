@@ -1,0 +1,13 @@
+services:
+  productpage:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: productpage
+    ports:
+      - "${APP_PORT:-9000}:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+    restart: unless-stopped

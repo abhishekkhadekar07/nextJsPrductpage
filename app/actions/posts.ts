@@ -1,7 +1,5 @@
 'use server';
 
-import { headers } from "next/headers";
-
 // Type definitions
 export interface Post {
   id: number;
@@ -139,18 +137,22 @@ export async function getPostById(id: number | string) {
 
 export async function fetchPosts() {
   try {
-    // Get the host from headers to construct full URL
-    const headersList = await headers();
-    const host = headersList.get('host') || 'localhost:3000';
-    const protocol = host.includes('localhost') ? 'http' : 'https';
-    const fullUrl = `${protocol}://${host}/api/posts`;
+    // Server actions run inside the container. Use internal app port (3000 by default),
+    // not the host-mapped port (for example 9000) that the browser uses.
+    const protocol = process.env.INTERNAL_API_PROTOCOL || 'http';
+    const host = process.env.INTERNAL_API_HOST || '127.0.0.1';
+    const port = process.env.PORT || '3000';
+    const fullUrl = `${protocol}://${host}:${port}/api/posts`;
 
-    const response = await fetch(fullUrl,{
-  next: { revalidate: false }
-});
+    const response = await fetch(fullUrl, {
+      next: { revalidate: false }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch posts: ${response.status}`);
+    }
+
     const data = await response.json();
-    console.log('data 123',data);
-    
     return { data: data, success: true };
   } catch (e) {
     console.log('error in fetchPosts', e);
