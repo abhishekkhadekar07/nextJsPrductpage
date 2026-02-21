@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import Navbar from './components/Navbar';
 import ReduxProvider from './providers/ReduxProvider';
@@ -29,7 +30,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ReduxProvider>
-          <Navbar />
+          {/* Keep navbar in a streamed boundary so it does not block PPR for the whole page. */}
+          <Suspense fallback={null}>
+            <Navbar />
+          </Suspense>
           {children}
         </ReduxProvider>
       </body>

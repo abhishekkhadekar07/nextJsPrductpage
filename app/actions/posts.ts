@@ -19,7 +19,7 @@ export interface ApiResponse<T> {
 const posts = [
   {
     id: 1,
-    title: 'Getting Started with Next.js',
+    title: 'Getting Started with Next.js1',
     body: 'Next.js is a React framework that enables you to build full-stack web applications. It provides server-side rendering, static site generation, and API routes out of the box.',
     userId: 1
   },

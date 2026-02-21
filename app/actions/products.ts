@@ -2,6 +2,8 @@
 
 import { promises as fs } from 'fs';
 import path from 'path';
+import { revalidateTag } from 'next/cache';
+import { PRODUCTS_CACHE_TAG, productCacheTag } from '../../lib/cache-tags';
 
 // Type definitions
 export interface Product {
@@ -179,6 +181,12 @@ async function writeProducts(products: Product[]) {
   await fs.writeFile(PRODUCTS_FILE, JSON.stringify(products, null, 2), 'utf8');
 }
 
+function revalidateProductsCache(productId: number | string) {
+  // Invalidate ISR/PPR caches for both list and detail pages after data mutations.
+  revalidateTag(PRODUCTS_CACHE_TAG, 'max');
+  revalidateTag(productCacheTag(productId), 'max');
+}
+
 // Get all products
 export async function getAllProducts() {
   const products = await readProducts();
@@ -260,6 +268,7 @@ export async function createProduct(productData: {
 
     products.push(newProduct);
     await writeProducts(products);
+    revalidateProductsCache(newProduct.id);
 
     return {
       success: true,
@@ -304,6 +313,7 @@ export async function updateProduct(
 
     products[productIndex] = updatedProduct;
     await writeProducts(products);
+    revalidateProductsCache(updatedProduct.id);
 
     return {
       success: true,
@@ -334,6 +344,7 @@ export async function deleteProduct(id: number | string) {
 
     const deletedProduct = products.splice(productIndex, 1)[0];
     await writeProducts(products);
+    revalidateProductsCache(deletedProduct.id);
 
     return {
       success: true,

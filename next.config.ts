@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Enables Partial Prerendering (PPR) and cache-component APIs like `use cache`.
+  cacheComponents: true,
   images: {
     remotePatterns: [
       {
