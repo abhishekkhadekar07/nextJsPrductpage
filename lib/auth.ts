@@ -1,8 +1,6 @@
 export const AUTH_COOKIE_NAME = 'productpage_auth';
 export const AUTH_COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
-const DEFAULT_USERNAME = normalizeUsername(process.env.AUTH_USERNAME ?? 'admin');
-const DEFAULT_PASSWORD = process.env.AUTH_PASSWORD ?? 'admin123';
 const USERNAME_PATTERN = /^[a-z0-9._-]+$/;
 
 export type AuthUser = {
@@ -11,20 +9,13 @@ export type AuthUser = {
 
 export type SignupValidationResult =
   | {
-      valid: true;
-      username: string;
-    }
+    valid: true;
+    username: string;
+  }
   | {
-      valid: false;
-      message: string;
-    };
-
-export function getAuthCredentials() {
-  return {
-    username: DEFAULT_USERNAME,
-    password: DEFAULT_PASSWORD,
+    valid: false;
+    message: string;
   };
-}
 
 export function normalizeUsername(value: string) {
   return value.trim().toLowerCase();

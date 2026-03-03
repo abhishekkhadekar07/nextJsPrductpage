@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { getAuthCredentials, normalizeUsername, type AuthUser, validateSignupInput } from './auth';
+import { normalizeUsername, type AuthUser, validateSignupInput } from './auth';
 
 type StoredUser = {
   username: string;
@@ -69,25 +69,11 @@ async function writeUsers(users: StoredUser[]) {
   await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2), 'utf8');
 }
 
-async function readUsersWithDefault(): Promise<StoredUser[]> {
-  const users = await readUsers();
-  const defaults = getAuthCredentials();
-  const defaultUsername = normalizeUsername(defaults.username);
-  const hasDefault = users.some((user) => user.username === defaultUsername);
-
-  if (defaultUsername && defaults.password && !hasDefault) {
-    users.push({ username: defaultUsername, password: defaults.password });
-    await writeUsers(users);
-  }
-
-  return users;
-}
-
 export async function validateCredentials(username: string, password: string): Promise<boolean> {
   const normalizedUsername = normalizeUsername(username);
   if (!normalizedUsername || !password) return false;
 
-  const users = await readUsersWithDefault();
+  const users = await readUsers();
   const user = users.find((entry) => entry.username === normalizedUsername);
   return Boolean(user && user.password === password);
 }
@@ -102,7 +88,7 @@ export async function registerUser(username: string, password: string): Promise<
     };
   }
 
-  const users = await readUsersWithDefault();
+  const users = await readUsers();
 
   if (users.some((entry) => entry.username === validation.username)) {
     return {
