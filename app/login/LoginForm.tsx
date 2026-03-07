@@ -113,9 +113,7 @@ export default function LoginForm({ redirectTo, initialUsername = '' }: LoginFor
         {isSubmitting ? 'Signing in...' : 'Sign in'}
       </button>
 
-      <div className={styles.helperText}>
-        After signing in, you will be redirected to your products view.
-      </div>
+      <div className={styles.helperText}>After signing in, you will be redirected to your products view.</div>
       <div className={styles.helperText}>
         No account yet?{' '}
         <Link className={styles.switchLink} href={signupHref}>

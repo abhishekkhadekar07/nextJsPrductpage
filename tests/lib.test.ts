@@ -95,10 +95,7 @@ describe('lib/cache-utils.ts', () => {
   });
 
   it('falls back to duration heuristic when cache header is missing', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue(new Response(JSON.stringify({ status: 'ok' })))
-    );
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ status: 'ok' }))));
     const nowSpy = vi.spyOn(Date, 'now').mockReturnValueOnce(1000).mockReturnValueOnce(1005);
 
     const result = await fetchWithCacheMonitoring('https://example.com/api');

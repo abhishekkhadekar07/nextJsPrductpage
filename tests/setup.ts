@@ -21,15 +21,7 @@ vi.mock('next/link', () => ({
 }));
 
 vi.mock('next/image', () => ({
-  default: ({
-    alt = '',
-    src = '',
-    ...props
-  }: {
-    alt?: string;
-    src?: string;
-    unoptimized?: boolean;
-  }) => {
+  default: ({ alt = '', src = '', ...props }: { alt?: string; src?: string; unoptimized?: boolean }) => {
     const { unoptimized, ...imageProps } = props;
     void unoptimized;
     return React.createElement('img', { alt, src, ...imageProps });

@@ -38,14 +38,18 @@ export default function AddPostPage() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <Link href="/posts" className={styles.back}>{'<-'} Back to posts</Link>
+        <Link href="/posts" className={styles.back}>
+          {'<-'} Back to posts
+        </Link>
         <h1 className={styles.title}>Add New Post</h1>
       </header>
 
       <main>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.formGroup}>
-            <label htmlFor="title" className={styles.label}>Title *</label>
+            <label htmlFor="title" className={styles.label}>
+              Title *
+            </label>
             <input
               type="text"
               id="title"
@@ -59,7 +63,9 @@ export default function AddPostPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="body" className={styles.label}>Content *</label>
+            <label htmlFor="body" className={styles.label}>
+              Content *
+            </label>
             <textarea
               id="body"
               name="body"
@@ -73,7 +79,9 @@ export default function AddPostPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="userId" className={styles.label}>User ID *</label>
+            <label htmlFor="userId" className={styles.label}>
+              User ID *
+            </label>
             <input
               type="number"
               id="userId"
@@ -90,8 +98,12 @@ export default function AddPostPage() {
           {error ? <p className={styles.userId}>{error}</p> : null}
 
           <div className={styles.formActions}>
-            <button type="submit" className={styles.submitButton}>Create Post</button>
-            <Link href="/posts" className={styles.cancelButton}>Cancel</Link>
+            <button type="submit" className={styles.submitButton}>
+              Create Post
+            </button>
+            <Link href="/posts" className={styles.cancelButton}>
+              Cancel
+            </Link>
           </div>
         </form>
       </main>

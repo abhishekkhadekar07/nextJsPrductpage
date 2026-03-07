@@ -12,15 +12,14 @@ export default function PostPage() {
   const postId = Number(params?.postid);
   const posts = useSelector((state: RootState) => state.posts.items);
 
-  const post = useMemo(
-    () => posts.find((item) => item.id === postId),
-    [posts, postId]
-  );
+  const post = useMemo(() => posts.find((item) => item.id === postId), [posts, postId]);
 
   if (!post) {
     return (
       <div className={styles.container}>
-        <Link href="/posts" className={styles.back}>{'<-'} Back to posts</Link>
+        <Link href="/posts" className={styles.back}>
+          {'<-'} Back to posts
+        </Link>
         <div className={styles.content}>
           <h1>Post not found</h1>
           <p>The post you are looking for does not exist.</p>
@@ -31,7 +30,9 @@ export default function PostPage() {
 
   return (
     <div className={styles.container}>
-      <Link href="/posts" className={styles.back}>{'<-'} Back to posts</Link>
+      <Link href="/posts" className={styles.back}>
+        {'<-'} Back to posts
+      </Link>
       <div className={styles.content}>
         <h1 className={styles.title}>{post.title}</h1>
         <div className={styles.meta}>

@@ -21,13 +21,15 @@ export default function AddToCartForm({ product }: { product: Product }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(addItem({
-      id: product.id,
-      title: product.title ?? product.name,
-      price: product.price,
-      image: product.image,
-      qty: quantity
-    }));
+    dispatch(
+      addItem({
+        id: product.id,
+        title: product.title ?? product.name,
+        price: product.price,
+        image: product.image,
+        qty: quantity,
+      })
+    );
 
     setMessage(`Added ${quantity} ${quantity === 1 ? 'item' : 'items'} to cart`);
     setQuantity(1);
@@ -45,7 +47,7 @@ export default function AddToCartForm({ product }: { product: Product }) {
             color: '#0f725d',
             border: '1px solid #b9ead7',
             borderRadius: '0.72rem',
-            fontSize: '0.88rem'
+            fontSize: '0.88rem',
           }}
         >
           {message}

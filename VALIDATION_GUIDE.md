@@ -9,12 +9,14 @@ Validation checks if the data entered in a form is correct before sending it to 
 ## 📋 Two Types of Validation
 
 ### 1. Client-Side Validation (Browser)
+
 - **When**: Happens immediately when you type or submit
 - **Where**: In your browser (JavaScript)
 - **Why**: Fast feedback, no server request needed
 - **Example**: "Title is required" appears instantly
 
 ### 2. Server-Side Validation (API)
+
 - **When**: Happens after form is submitted
 - **Where**: On the server (API route)
 - **Why**: Security - can't be bypassed by users
@@ -23,12 +25,14 @@ Validation checks if the data entered in a form is correct before sending it to 
 ## 🔍 How It Works in This Form
 
 ### Step 1: User Fills Form
+
 ```
 User types: "iPhone 15" in title field
 User types: "999" in price field
 ```
 
 ### Step 2: Client-Side Validation
+
 ```typescript
 // Checks happen as user types:
 - Is title empty? ❌ Show error
@@ -37,6 +41,7 @@ User types: "999" in price field
 ```
 
 ### Step 3: Form Submission
+
 ```typescript
 // When user clicks "Update Product":
 1. Client validation runs again
@@ -45,6 +50,7 @@ User types: "999" in price field
 ```
 
 ### Step 4: Server-Side Validation
+
 ```typescript
 // API receives data and validates:
 - Title length check
@@ -54,6 +60,7 @@ User types: "999" in price field
 ```
 
 ### Step 5: Response
+
 ```typescript
 // API sends back:
 ✅ Success: "Product updated successfully!"
@@ -63,27 +70,32 @@ User types: "999" in price field
 ## 📝 Validation Rules in This Form
 
 ### Title Field
+
 - ✅ **Required**: Must not be empty
 - ✅ **Max Length**: Less than 100 characters
 - ✅ **Type**: Must be text (string)
 
 ### Price Field
+
 - ✅ **Required**: Must not be empty
 - ✅ **Type**: Must be a number
 - ✅ **Min**: Cannot be negative (≥ 0)
 - ✅ **Max**: Cannot exceed $10,000
 
 ### Category Field
+
 - ✅ **Required**: Must select a category
 - ✅ **Type**: Must be from dropdown list
 
 ### Description Field
+
 - ⚠️ **Optional**: Can be left empty
 - ✅ **Max Length**: Less than 500 characters if provided
 
 ## 💻 Code Examples
 
 ### Client-Side Validation (ProductUpdateForm.tsx)
+
 ```typescript
 function validateForm(): boolean {
   const newErrors: FormErrors = {};
@@ -105,6 +117,7 @@ function validateForm(): boolean {
 ```
 
 ### Server-Side Validation (api/products/route.ts)
+
 ```typescript
 function validateProductData(data: any) {
   const errors: string[] = [];
@@ -124,16 +137,19 @@ function validateProductData(data: any) {
 ## 🎨 User Experience Features
 
 ### Real-Time Feedback
+
 - ✅ Errors show as you type
 - ✅ Errors clear when you fix them
 - ✅ Character counter for description
 
 ### Visual Indicators
+
 - ❌ Red border on invalid fields
 - ✅ Green success message on success
 - ⏳ Loading state while submitting
 
 ### Error Messages
+
 - Clear, specific error messages
 - Shows which field has the error
 - Explains what's wrong and how to fix it
@@ -141,17 +157,20 @@ function validateProductData(data: any) {
 ## 🚀 How to Test Validation
 
 ### Test Client-Side Validation:
+
 1. Leave title empty → Click submit
 2. Enter negative price → See error
 3. Type very long title → See error
 
 ### Test Server-Side Validation:
+
 1. Open browser DevTools (F12)
 2. Go to Network tab
 3. Submit form with invalid data
 4. See API response with validation errors
 
 ### Test Success Flow:
+
 1. Fill all required fields correctly
 2. Submit form
 3. See success message

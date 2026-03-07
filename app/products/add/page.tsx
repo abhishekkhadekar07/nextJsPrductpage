@@ -16,7 +16,9 @@ export default async function AddProductPage() {
       <header className={styles.header}>
         <h1 className={styles.title}>Create Product</h1>
         <p className={styles.description}>Fill in the details and submit to add a new product.</p>
-        <Link href="/products" className={styles.backLink}>Back to products</Link>
+        <Link href="/products" className={styles.backLink}>
+          Back to products
+        </Link>
       </header>
       <AddProductForm redirectTo="/products" />
     </div>

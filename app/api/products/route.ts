@@ -11,7 +11,7 @@ export async function GET(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Unauthorized'
+          message: 'Unauthorized',
         },
         { status: 401 }
       );
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       {
         success: false,
         message: error instanceof Error ? error.message : 'Failed to fetch products',
-        error: String(error)
+        error: String(error),
       },
       { status: 500 }
     );
@@ -39,33 +39,41 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Unauthorized'
+          message: 'Unauthorized',
         },
         { status: 401 }
       );
     }
-    let body: { title?: string; price?: string | number; description?: string; image?: string; category?: string } = {};
+    let body: {
+      title?: string;
+      price?: string | number;
+      description?: string;
+      image?: string;
+      category?: string;
+    } = {};
 
     // Check content type to handle both JSON and form data
     const contentType = request.headers.get('content-type');
 
     if (contentType?.includes('application/json')) {
       body = await request.json();
-    } else if (contentType?.includes('application/x-www-form-urlencoded') ||
-               contentType?.includes('multipart/form-data')) {
+    } else if (
+      contentType?.includes('application/x-www-form-urlencoded') ||
+      contentType?.includes('multipart/form-data')
+    ) {
       const formData = await request.formData();
       body = {
         title: formData.get('title') as string,
         price: formData.get('price') as string,
         description: formData.get('description') as string,
         image: formData.get('image') as string,
-        category: formData.get('category') as string
+        category: formData.get('category') as string,
       };
     } else {
       return NextResponse.json(
         {
           success: false,
-          message: 'Unsupported content type'
+          message: 'Unsupported content type',
         },
         { status: 400 }
       );
@@ -76,7 +84,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Missing required fields: title, price, description, and image are required'
+          message: 'Missing required fields: title, price, description, and image are required',
         },
         { status: 400 }
       );
@@ -90,7 +98,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Price must be a valid positive number'
+          message: 'Price must be a valid positive number',
         },
         { status: 400 }
       );
@@ -102,7 +110,7 @@ export async function POST(request: Request) {
       price: price,
       description: body.description,
       image: body.image,
-      category: body.category as string
+      category: body.category as string,
     });
 
     if (!result.success) {
@@ -115,7 +123,7 @@ export async function POST(request: Request) {
       {
         success: false,
         message: error instanceof Error ? error.message : 'Failed to create product',
-        error: String(error)
+        error: String(error),
       },
       { status: 500 }
     );

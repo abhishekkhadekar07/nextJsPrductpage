@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 import styles from './stocks.module.css';
 
 export const metadata: Metadata = {
-  title: "stocks",
-  description: "stocks page",
+  title: 'stocks',
+  description: 'stocks page',
 };
 
 export default function RootLayout({

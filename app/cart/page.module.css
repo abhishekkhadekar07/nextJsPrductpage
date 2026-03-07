@@ -8,8 +8,7 @@
 .header {
   border-radius: 1.1rem;
   padding: 0.95rem 1rem;
-  background:
-    linear-gradient(125deg, rgba(255, 255, 255, 0.9) 0%, rgba(236, 249, 255, 0.9) 100%);
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.9) 0%, rgba(236, 249, 255, 0.9) 100%);
   border: 1px solid rgba(255, 255, 255, 0.86);
   box-shadow: 0 16px 34px rgba(17, 70, 130, 0.1);
 }

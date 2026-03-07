@@ -22,7 +22,9 @@ export default function EditPage() {
     return (
       <div className={styles.page}>
         <h2 className={styles.editTitle}>Stock not found</h2>
-        <Link href="/Stocks" className={styles.editLink}>Back</Link>
+        <Link href="/Stocks" className={styles.editLink}>
+          Back
+        </Link>
       </div>
     );
   }

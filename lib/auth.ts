@@ -9,13 +9,13 @@ export type AuthUser = {
 
 export type SignupValidationResult =
   | {
-    valid: true;
-    username: string;
-  }
+      valid: true;
+      username: string;
+    }
   | {
-    valid: false;
-    message: string;
-  };
+      valid: false;
+      message: string;
+    };
 
 export function normalizeUsername(value: string) {
   return value.trim().toLowerCase();

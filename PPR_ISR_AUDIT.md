@@ -41,20 +41,20 @@ Framework: Next.js 16.1.1 (App Router)
 
 ## Route-by-Route Audit
 
-| Route | Page Type | Current Rendering | ISR / Revalidation | Notes |
-|---|---|---|---|---|
-| `/` | Server | Static | Not needed | Pure static landing page. |
-| `/cart` | Client | Static shell | Not needed | Cart data is Redux/client state. |
-| `/login` | Server | Partial Prerender | Not needed | Cookie-based redirect logic streams dynamically. |
-| `/signup` | Server | Partial Prerender | Not needed | Cookie-based redirect logic streams dynamically. |
-| `/posts` | Client | Static shell | Not needed | Uses Redux local data; no server data fetch. |
-| `/posts/add` | Client | Static shell | Not needed | Client form + Redux mutation only. |
-| `/posts/[postid]` | Client | Partial Prerender | Not needed | Dynamic param + client render; no server ISR data path. |
-| `/products` | Server | Partial Prerender | Cached data (`minutes`) + tag invalidation | Product list now streams and uses cached server data. |
-| `/products/add` | Server | Partial Prerender | Not needed | Auth check is dynamic; form is client component. |
-| `/products/[productid]` | Server | Partial Prerender | Cached data (`hours`) + tag invalidation | Detail page now uses ISR-style cache and prebuilt known IDs. |
-| `/Stocks` | Client | Static shell | Not needed | Live updates via SSE + Redux; should stay dynamic client-side. |
-| `/Stocks/[name]/edit` | Client | Partial Prerender | Not needed | Client-side param lookup and Redux state. |
+| Route                   | Page Type | Current Rendering | ISR / Revalidation                         | Notes                                                          |
+| ----------------------- | --------- | ----------------- | ------------------------------------------ | -------------------------------------------------------------- |
+| `/`                     | Server    | Static            | Not needed                                 | Pure static landing page.                                      |
+| `/cart`                 | Client    | Static shell      | Not needed                                 | Cart data is Redux/client state.                               |
+| `/login`                | Server    | Partial Prerender | Not needed                                 | Cookie-based redirect logic streams dynamically.               |
+| `/signup`               | Server    | Partial Prerender | Not needed                                 | Cookie-based redirect logic streams dynamically.               |
+| `/posts`                | Client    | Static shell      | Not needed                                 | Uses Redux local data; no server data fetch.                   |
+| `/posts/add`            | Client    | Static shell      | Not needed                                 | Client form + Redux mutation only.                             |
+| `/posts/[postid]`       | Client    | Partial Prerender | Not needed                                 | Dynamic param + client render; no server ISR data path.        |
+| `/products`             | Server    | Partial Prerender | Cached data (`minutes`) + tag invalidation | Product list now streams and uses cached server data.          |
+| `/products/add`         | Server    | Partial Prerender | Not needed                                 | Auth check is dynamic; form is client component.               |
+| `/products/[productid]` | Server    | Partial Prerender | Cached data (`hours`) + tag invalidation   | Detail page now uses ISR-style cache and prebuilt known IDs.   |
+| `/Stocks`               | Client    | Static shell      | Not needed                                 | Live updates via SSE + Redux; should stay dynamic client-side. |
+| `/Stocks/[name]/edit`   | Client    | Partial Prerender | Not needed                                 | Client-side param lookup and Redux state.                      |
 
 ## Why Some Pages Do Not Use ISR
 

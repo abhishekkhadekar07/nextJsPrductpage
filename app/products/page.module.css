@@ -10,8 +10,7 @@
   gap: 0.85rem;
   padding: 1rem 1rem 1.05rem;
   border-radius: 1.15rem;
-  background:
-    linear-gradient(125deg, rgba(255, 255, 255, 0.88) 0%, rgba(233, 247, 255, 0.88) 100%);
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.88) 0%, rgba(233, 247, 255, 0.88) 100%);
   border: 1px solid rgba(255, 255, 255, 0.86);
   box-shadow: 0 16px 34px rgba(17, 70, 130, 0.1);
 }
@@ -41,7 +40,10 @@
   color: #ffffff;
   background: linear-gradient(125deg, #1372e2 0%, #00a6a6 100%);
   box-shadow: 0 8px 18px rgba(0, 96, 163, 0.2);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
 }
 
 .addLink:hover {
@@ -149,8 +151,7 @@
   justify-content: center;
   padding: 0.85rem;
   overflow: hidden;
-  background:
-    linear-gradient(140deg, #fdf4dd 0%, #edf8ff 100%);
+  background: linear-gradient(140deg, #fdf4dd 0%, #edf8ff 100%);
 }
 
 .image {

@@ -35,11 +35,7 @@ export default function UpdateForm({ stock }: UpdateFormProps) {
 
       <div className={styles.formRow}>
         <label className={styles.label}>BUY</label>
-        <input
-          type="number"
-          value={buy}
-          onChange={(e) => setBuy(Number(e.target.value))}
-        />
+        <input type="number" value={buy} onChange={(e) => setBuy(Number(e.target.value))} />
       </div>
 
       <button type="submit" className={styles.updateButton}>

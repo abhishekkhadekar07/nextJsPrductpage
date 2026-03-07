@@ -7,6 +7,7 @@ This guide shows how to use the `/api/posts` endpoint from different pages.
 **URL:** `/api/posts`
 
 **Methods:**
+
 - `GET` - Fetch all posts or a single post
 - `POST` - Create a new post
 
@@ -31,7 +32,7 @@ export default function PostsList() {
       try {
         const response = await fetch('/api/posts');
         const data = await response.json();
-        
+
         if (data.success) {
           setPosts(data.data);
         } else {
@@ -43,7 +44,7 @@ export default function PostsList() {
         setLoading(false);
       }
     }
-    
+
     fetchPosts();
   }, []);
 
@@ -76,7 +77,7 @@ export default function PostDetail({ postId }: { postId: string }) {
       try {
         const response = await fetch(`/api/posts?id=${postId}`);
         const data = await response.json();
-        
+
         if (data.success) {
           setPost(data.data);
         }
@@ -86,7 +87,7 @@ export default function PostDetail({ postId }: { postId: string }) {
         setLoading(false);
       }
     }
-    
+
     fetchPost();
   }, [postId]);
 
@@ -110,7 +111,7 @@ export default async function PostsPage() {
   const response = await fetch('http://localhost:3000/api/posts', {
     cache: 'no-store' // or use revalidate
   });
-  
+
   const data = await response.json();
   const posts = data.success ? data.data : [];
 
@@ -134,7 +135,7 @@ export default async function PostsPage() {
 export default async function PostPage({ params }: { params: { id: string } }) {
   const response = await fetch(`http://localhost:3000/api/posts?id=${params.id}`);
   const data = await response.json();
-  
+
   if (!data.success) {
     return <div>Post not found</div>;
   }
@@ -243,7 +244,7 @@ export async function createPost(formData: FormData) {
     body: JSON.stringify({
       title,
       body,
-      userId: parseInt(userId) || 1
+      userId: parseInt(userId) || 1,
     }),
   });
 
@@ -311,7 +312,7 @@ export default function CreatePost() {
           ))}
         </div>
       )}
-      
+
       <input
         value={formData.title}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -335,6 +336,7 @@ export default function CreatePost() {
 ## 📝 Response Format
 
 ### GET Response (All Posts)
+
 ```json
 {
   "success": true,
@@ -351,6 +353,7 @@ export default function CreatePost() {
 ```
 
 ### GET Response (Single Post)
+
 ```json
 {
   "success": true,
@@ -364,6 +367,7 @@ export default function CreatePost() {
 ```
 
 ### POST Success Response
+
 ```json
 {
   "success": true,
@@ -378,14 +382,12 @@ export default function CreatePost() {
 ```
 
 ### Error Response
+
 ```json
 {
   "success": false,
   "message": "Validation failed",
-  "errors": [
-    "Title must be at least 3 characters",
-    "Body must be at least 10 characters"
-  ]
+  "errors": ["Title must be at least 3 characters", "Body must be at least 10 characters"]
 }
 ```
 
@@ -394,15 +396,17 @@ export default function CreatePost() {
 ## 🎯 Quick Reference
 
 ### GET Request
+
 ```typescript
 // All posts
-fetch('/api/posts')
+fetch('/api/posts');
 
 // Single post
-fetch('/api/posts?id=1')
+fetch('/api/posts?id=1');
 ```
 
 ### POST Request
+
 ```typescript
 fetch('/api/posts', {
   method: 'POST',
@@ -410,9 +414,9 @@ fetch('/api/posts', {
   body: JSON.stringify({
     title: 'My Post',
     body: 'Post content here',
-    userId: 1
-  })
-})
+    userId: 1,
+  }),
+});
 ```
 
 ---

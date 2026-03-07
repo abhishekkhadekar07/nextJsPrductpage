@@ -13,7 +13,7 @@ export async function fetchWithCacheMonitoring(
   const res = await fetch(url, options);
   const duration = Date.now() - startTime;
   const nextJsCacheStatus = res.headers.get('x-nextjs-cache');
-  
+
   let cacheStatus: 'HIT' | 'MISS' | 'UNKNOWN' = 'UNKNOWN';
   let isCacheHit = false;
 

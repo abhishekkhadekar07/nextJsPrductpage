@@ -7,46 +7,41 @@ This document shows the difference between using API Routes vs Server Actions.
 ### BEFORE: Using API Routes
 
 #### 1. API Route (`app/api/posts/route.ts`)
+
 ```typescript
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    
+
     // Validation
     const errors: string[] = [];
     if (!body.title || body.title.length < 3) {
       errors.push('Title must be at least 3 characters');
     }
-    
+
     if (errors.length > 0) {
-      return NextResponse.json(
-        { success: false, errors },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, errors }, { status: 400 });
     }
-    
+
     // API call
     const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    
+
     const data = await response.json();
     return NextResponse.json({ success: true, data });
-    
   } catch (error) {
-    return NextResponse.json(
-      { success: false, message: 'Error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, message: 'Error' }, { status: 500 });
   }
 }
 ```
 
 #### 2. Client Component (`app/posts/new/page.tsx`)
+
 ```typescript
 'use client';
 import { useState } from 'react';
@@ -60,16 +55,16 @@ export default function NewPostPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, body }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         // Handle success
       } else {
@@ -84,13 +79,13 @@ export default function NewPostPage() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input 
-        value={title} 
-        onChange={(e) => setTitle(e.target.value)} 
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       />
-      <textarea 
-        value={body} 
-        onChange={(e) => setBody(e.target.value)} 
+      <textarea
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
       />
       <button disabled={isSubmitting}>Submit</button>
     </form>
@@ -105,39 +100,38 @@ export default function NewPostPage() {
 ### AFTER: Using Server Actions
 
 #### 1. Server Action (`app/actions/posts.ts`)
-```typescript
-'use server'
 
-export async function createPost(
-  prevState: any,
-  formData: FormData
-) {
+```typescript
+'use server';
+
+export async function createPost(prevState: any, formData: FormData) {
   const title = formData.get('title')?.toString().trim() || '';
   const body = formData.get('body')?.toString().trim() || '';
-  
+
   // Validation
   const errors: string[] = [];
   if (!title || title.length < 3) {
     errors.push('Title must be at least 3 characters');
   }
-  
+
   if (errors.length > 0) {
     return { success: false, errors };
   }
-  
+
   // API call
   const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ title, body }),
   });
-  
+
   const data = await response.json();
   return { success: true, data };
 }
 ```
 
 #### 2. Client Component (`app/posts/new/page.tsx`)
+
 ```typescript
 'use client';
 import { useActionState } from 'react';
@@ -163,27 +157,29 @@ export default function NewPostPage() {
 
 ## 🎯 Key Differences
 
-| Feature | API Routes | Server Actions |
-|---------|-----------|-----------------|
-| **Code Location** | Separate API route file | Can be in same file or actions folder |
-| **Form Handling** | Manual `fetch()` calls | Direct `action` prop |
-| **State Management** | Manual `useState` hooks | `useActionState` hook |
-| **Progressive Enhancement** | ❌ Requires JavaScript | ✅ Works without JS |
-| **Type Safety** | Manual typing | Full TypeScript support |
-| **Error Handling** | Manual try/catch | Built-in error handling |
-| **Loading States** | Manual `isLoading` state | `isPending` from hook |
-| **Code Complexity** | Higher | Lower |
+| Feature                     | API Routes               | Server Actions                        |
+| --------------------------- | ------------------------ | ------------------------------------- |
+| **Code Location**           | Separate API route file  | Can be in same file or actions folder |
+| **Form Handling**           | Manual `fetch()` calls   | Direct `action` prop                  |
+| **State Management**        | Manual `useState` hooks  | `useActionState` hook                 |
+| **Progressive Enhancement** | ❌ Requires JavaScript   | ✅ Works without JS                   |
+| **Type Safety**             | Manual typing            | Full TypeScript support               |
+| **Error Handling**          | Manual try/catch         | Built-in error handling               |
+| **Loading States**          | Manual `isLoading` state | `isPending` from hook                 |
+| **Code Complexity**         | Higher                   | Lower                                 |
 
 ---
 
 ## ✅ Benefits of Server Actions
 
 ### 1. **Less Code**
+
 - No need for separate API route files
 - No manual fetch calls
 - No manual state management
 
 ### 2. **Progressive Enhancement**
+
 ```typescript
 // This form works even if JavaScript is disabled!
 <form action={createPost}>
@@ -193,6 +189,7 @@ export default function NewPostPage() {
 ```
 
 ### 3. **Better Type Safety**
+
 ```typescript
 // TypeScript knows the return type
 const [state, formAction] = useActionState(createPost, null);
@@ -200,6 +197,7 @@ const [state, formAction] = useActionState(createPost, null);
 ```
 
 ### 4. **Simpler Error Handling**
+
 ```typescript
 // Errors are automatically handled
 {state?.errors && (
@@ -208,6 +206,7 @@ const [state, formAction] = useActionState(createPost, null);
 ```
 
 ### 5. **Automatic Loading States**
+
 ```typescript
 // isPending is automatically managed
 const [state, formAction, isPending] = useActionState(createPost, null);
@@ -221,24 +220,27 @@ const [state, formAction, isPending] = useActionState(createPost, null);
 To convert from API Routes to Server Actions:
 
 1. **Create server action file**
+
    ```typescript
    // app/actions/posts.ts
-   'use server'
+   'use server';
    export async function createPost(formData: FormData) {
      // Move validation and logic from API route
    }
    ```
 
 2. **Update component**
+
    ```typescript
    // Replace useState with useActionState
    const [state, formAction, isPending] = useActionState(createPost, null);
-   
+
    // Replace form onSubmit with action prop
    <form action={formAction}>
    ```
 
 3. **Update form inputs**
+
    ```typescript
    // Remove value/onChange, add name prop
    <input name="title" />  // Instead of value={title} onChange={...}
@@ -255,12 +257,14 @@ To convert from API Routes to Server Actions:
 ## 📚 When to Use Each
 
 ### Use Server Actions When:
+
 - ✅ Form submissions
 - ✅ Mutations (create, update, delete)
 - ✅ You want progressive enhancement
 - ✅ You want simpler code
 
 ### Use API Routes When:
+
 - ✅ External API integrations
 - ✅ Webhooks
 - ✅ Complex middleware needs
@@ -271,6 +275,7 @@ To convert from API Routes to Server Actions:
 ## 🎓 Summary
 
 **Server Actions** simplify form handling by:
+
 - Reducing code by ~50%
 - Eliminating the need for API routes
 - Providing built-in state management

@@ -12,10 +12,7 @@ export default function DeleteStockButton({ name }) {
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      className={styles.deleteButton}
-    >
+    <button onClick={handleDelete} className={styles.deleteButton}>
       Delete
     </button>
   );

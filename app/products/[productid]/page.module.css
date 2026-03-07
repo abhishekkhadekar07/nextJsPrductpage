@@ -43,8 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    linear-gradient(140deg, #fdf4dd 0%, #edf8ff 100%);
+  background: linear-gradient(140deg, #fdf4dd 0%, #edf8ff 100%);
   border: 1px solid rgba(255, 255, 255, 0.84);
   border-radius: 1.1rem;
   overflow: hidden;

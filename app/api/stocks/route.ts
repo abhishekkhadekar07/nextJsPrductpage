@@ -46,10 +46,7 @@ export async function POST(request: Request) {
 
     const buyValue = typeof body.BUY === 'number' ? body.BUY : Number(body.BUY);
     if (Number.isNaN(buyValue)) {
-      return NextResponse.json(
-        { success: false, message: 'BUY must be a number' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, message: 'BUY must be a number' }, { status: 400 });
     }
 
     const newStock = { name: body.name, BUY: buyValue };
@@ -79,15 +76,10 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const index = stocks.findIndex(
-      (stock) => stock.name.toLowerCase() === body.name.toLowerCase()
-    );
+    const index = stocks.findIndex((stock) => stock.name.toLowerCase() === body.name.toLowerCase());
 
     if (index === -1) {
-      return NextResponse.json(
-        { success: false, message: 'Stock not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, message: 'Stock not found' }, { status: 404 });
     }
 
     const deletedStock = stocks.splice(index, 1);
@@ -129,21 +121,13 @@ export async function PUT(request: Request) {
 
     const buyValue = typeof body.BUY === 'number' ? body.BUY : Number(body.BUY);
     if (Number.isNaN(buyValue)) {
-      return NextResponse.json(
-        { success: false, message: 'BUY must be a number' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, message: 'BUY must be a number' }, { status: 400 });
     }
 
-    const stock = stocks.find(
-      (s) => s.name.toLowerCase() === body.name.toLowerCase()
-    );
+    const stock = stocks.find((s) => s.name.toLowerCase() === body.name.toLowerCase());
 
     if (!stock) {
-      return NextResponse.json(
-        { success: false, message: 'Stock not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ success: false, message: 'Stock not found' }, { status: 404 });
     }
 
     stock.BUY = buyValue;

@@ -110,10 +110,7 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    addPost(
-      state,
-      action: PayloadAction<{ title: string; body: string; userId: number }>
-    ) {
+    addPost(state, action: PayloadAction<{ title: string; body: string; userId: number }>) {
       const title = action.payload.title.trim();
       const body = action.payload.body.trim();
       if (!title || !body) return;

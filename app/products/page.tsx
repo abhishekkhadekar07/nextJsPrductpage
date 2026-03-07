@@ -36,7 +36,9 @@ export default async function Page(props: ProductsPageProps) {
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <h1 className={styles.title}>Products</h1>
-          <Link href="/products/add" className={styles.addLink}>Add Product</Link>
+          <Link href="/products/add" className={styles.addLink}>
+            Add Product
+          </Link>
         </div>
         <form className={styles.searchForm} method="get" action="/products">
           <input
@@ -46,7 +48,9 @@ export default async function Page(props: ProductsPageProps) {
             className={styles.searchInput}
             aria-label="Search products"
           />
-          <button type="submit" className={styles.searchButton}>Search</button>
+          <button type="submit" className={styles.searchButton}>
+            Search
+          </button>
         </form>
       </header>
 
@@ -107,13 +111,17 @@ async function ProductsResults({ q }: { q: string }) {
                 <h3 className={styles.productTitle}>{p.title ?? p.name}</h3>
                 <p className={styles.price}>${p.price?.toFixed?.(2) ?? ''}</p>
                 {p.rating?.rate !== undefined && (
-                  <p className={styles.rating}>Rating: {p.rating.rate} ({p.rating.count})</p>
+                  <p className={styles.rating}>
+                    Rating: {p.rating.rate} ({p.rating.count})
+                  </p>
                 )}
               </div>
             </Link>
             <div className={styles.cardActions}>
               <AddToCartButton product={p} />
-              <Link href="/checkout" className={styles.checkoutLink}>Checkout</Link>
+              <Link href="/checkout" className={styles.checkoutLink}>
+                Checkout
+              </Link>
             </div>
           </li>
         ))}

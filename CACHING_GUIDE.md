@@ -5,6 +5,7 @@ This guide explains the different caching methods in Next.js and when to use the
 ## 🎯 Why Caching?
 
 Caching stores data temporarily so you don't have to fetch it from the API every time. This makes your app:
+
 - **Faster** - Cached data loads in < 10ms vs 200-500ms from API
 - **Cheaper** - Fewer API calls = lower costs
 - **More reliable** - Works even if API is temporarily down
@@ -12,39 +13,47 @@ Caching stores data temporarily so you don't have to fetch it from the API every
 ## 📚 Next.js Caching Methods
 
 ### 1. Static Caching (Default)
+
 ```typescript
 const res = await fetch('https://api.example.com/products');
 ```
+
 - **What it does**: Caches forever until you rebuild your app
 - **When to use**: Data that rarely changes (product catalogs, blog posts, static content)
 - **Example**: List of all products that only changes when you deploy
 
 ### 2. Time-Based Revalidation ⏰
+
 ```typescript
 const res = await fetch('https://api.example.com/products', {
-  next: { revalidate: 3600 } // Cache for 1 hour (3600 seconds)
+  next: { revalidate: 3600 }, // Cache for 1 hour (3600 seconds)
 });
 ```
+
 - **What it does**: Caches for a specific time, then refreshes automatically
 - **When to use**: Data that updates periodically (prices, stock, news)
 - **Example**: Product prices that update once per hour
 
 **Common time values:**
+
 - `60` = 1 minute
 - `3600` = 1 hour
 - `86400` = 1 day
 
 ### 3. On-Demand Revalidation (No Cache)
+
 ```typescript
 const res = await fetch('https://api.example.com/products', {
-  next: { revalidate: false } // Always fetch fresh
+  next: { revalidate: false }, // Always fetch fresh
 });
 ```
+
 - **What it does**: Never caches, always fetches fresh data
 - **When to use**: Real-time data, user-specific content
 - **Example**: User's shopping cart, live chat messages
 
 ### 4. Force No Cache (Route Level)
+
 ```typescript
 import { unstable_noStore } from 'next/cache';
 
@@ -53,6 +62,7 @@ export default async function Page() {
   const res = await fetch('https://api.example.com/data');
 }
 ```
+
 - **What it does**: Completely disables caching for the entire page
 - **When to use**: Dynamic pages that should never be cached
 - **Example**: User dashboard, personalized content
@@ -63,7 +73,7 @@ In this project, we use `fetchWithCacheMonitoring` to see if data came from cach
 
 ```typescript
 const cacheResult = await fetchWithCacheMonitoring(url, {
-  next: { revalidate: 3600 }
+  next: { revalidate: 3600 },
 });
 
 // cacheResult.cacheStatus can be:
@@ -75,6 +85,7 @@ const cacheResult = await fetchWithCacheMonitoring(url, {
 ## 📊 Visual Indicator
 
 The `CacheIndicator` component shows cache status on the page:
+
 - ⚡ **HIT** (green) = Fast cached response
 - 🌐 **MISS** (red) = Fresh API fetch
 - ❓ **UNKNOWN** (yellow) = Development mode
@@ -82,22 +93,25 @@ The `CacheIndicator` component shows cache status on the page:
 ## 🎓 Real-World Examples
 
 ### Example 1: Product List (Time-Based)
+
 ```typescript
 // Products change occasionally, so cache for 1 hour
 const products = await fetch('https://api.com/products', {
-  next: { revalidate: 3600 }
+  next: { revalidate: 3600 },
 });
 ```
 
 ### Example 2: User Profile (No Cache)
+
 ```typescript
 // User data changes frequently, always fetch fresh
 const profile = await fetch('https://api.com/user/profile', {
-  next: { revalidate: false }
+  next: { revalidate: false },
 });
 ```
 
 ### Example 3: Static Blog Post (Forever Cache)
+
 ```typescript
 // Blog posts don't change, cache forever
 const post = await fetch('https://api.com/posts/123');
@@ -106,7 +120,7 @@ const post = await fetch('https://api.com/posts/123');
 
 ## ⚠️ Important Notes
 
-1. **Development vs Production**: 
+1. **Development vs Production**:
    - In dev mode, caching works differently (you might see UNKNOWN status)
    - Test caching in production mode: `npm run build && npm start`
 

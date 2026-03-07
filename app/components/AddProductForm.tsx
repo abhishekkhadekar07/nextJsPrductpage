@@ -31,12 +31,14 @@ export default function AddProductForm({ redirectTo = '/products' }: AddProductF
     price: '',
     description: '',
     image: '',
-    category: ''
+    category: '',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(
+    null
+  );
 
   function validateForm(): boolean {
     const newErrors: FormErrors = {};
@@ -107,7 +109,7 @@ export default function AddProductForm({ redirectTo = '/products' }: AddProductF
         price: parseFloat(formData.price),
         description: formData.description.trim(),
         image: formData.image.trim(),
-        category: formData.category.trim()
+        category: formData.category.trim(),
       };
 
       const response = await fetch('/api/products', {
@@ -132,7 +134,7 @@ export default function AddProductForm({ redirectTo = '/products' }: AddProductF
     } catch (err) {
       setSubmitMessage({
         type: 'error',
-        text: 'Network error. Please try again later.'
+        text: 'Network error. Please try again later.',
       });
       console.error('Form submission error:', err);
     } finally {
@@ -157,8 +159,7 @@ export default function AddProductForm({ redirectTo = '/products' }: AddProductF
     <div className={styles.formContainer}>
       <h2 className={styles.title}>Add Product</h2>
       <p className={styles.subtitle}>
-        Create a new product entry to add to the catalog.
-        All fields are validated on client and server.
+        Create a new product entry to add to the catalog. All fields are validated on client and server.
       </p>
 
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -169,9 +170,7 @@ export default function AddProductForm({ redirectTo = '/products' }: AddProductF
         )}
 
         {errors.general && (
-          <div className={`${styles.message} ${styles.error}`}>
-            [ERROR] {errors.general}
-          </div>
+          <div className={`${styles.message} ${styles.error}`}>[ERROR] {errors.general}</div>
         )}
 
         <div className={styles.field}>
@@ -248,7 +247,9 @@ export default function AddProductForm({ redirectTo = '/products' }: AddProductF
             placeholder="https://placehold.co/600x400"
             disabled={isSubmitting}
           />
-          <span className={styles.helperText}>Tip: Use a `placehold.co` or `fakestoreapi.com` image URL.</span>
+          <span className={styles.helperText}>
+            Tip: Use a `placehold.co` or `fakestoreapi.com` image URL.
+          </span>
           {errors.image && <span className={styles.errorText}>{errors.image}</span>}
         </div>
 

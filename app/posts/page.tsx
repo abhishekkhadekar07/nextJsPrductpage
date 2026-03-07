@@ -23,7 +23,9 @@ export default function PostsPage() {
       <header className={styles.header}>
         <div className={styles.headerRow}>
           <h1 className={styles.title}>Posts</h1>
-          <Link href="/posts/add" className={styles.addButton}>Add Post</Link>
+          <Link href="/posts/add" className={styles.addButton}>
+            Add Post
+          </Link>
         </div>
         <form className={styles.searchForm} method="get" action="/posts">
           <input
@@ -33,7 +35,9 @@ export default function PostsPage() {
             className={styles.searchInput}
             aria-label="Search posts"
           />
-          <button type="submit" className={styles.searchButton}>Search</button>
+          <button type="submit" className={styles.searchButton}>
+            Search
+          </button>
         </form>
       </header>
 

@@ -10,11 +10,7 @@ function shouldDebug(request: NextRequest) {
   return PROXY_DEBUG_ENABLED || request.nextUrl.searchParams.get('__authDebug') === '1';
 }
 
-function debugLog(
-  request: NextRequest,
-  stage: string,
-  details: Record<string, unknown> = {}
-) {
+function debugLog(request: NextRequest, stage: string, details: Record<string, unknown> = {}) {
   if (!shouldDebug(request)) return;
   const base = {
     stage,

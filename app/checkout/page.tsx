@@ -41,8 +41,12 @@ export default function CheckoutPage() {
           <h1 className={styles.title}>Order confirmed</h1>
           <p className={styles.text}>Your checkout is complete. Thank you for your purchase.</p>
           <div className={styles.actions}>
-            <Link href="/products" className={styles.primaryAction}>Continue Shopping</Link>
-            <Link href="/cart" className={styles.secondaryAction}>Go to Cart</Link>
+            <Link href="/products" className={styles.primaryAction}>
+              Continue Shopping
+            </Link>
+            <Link href="/cart" className={styles.secondaryAction}>
+              Go to Cart
+            </Link>
           </div>
         </section>
       </div>
@@ -56,8 +60,12 @@ export default function CheckoutPage() {
           <h1 className={styles.title}>Checkout</h1>
           <p className={styles.text}>Your cart is empty. Add products before checkout.</p>
           <div className={styles.actions}>
-            <Link href="/products" className={styles.primaryAction}>Browse Products</Link>
-            <Link href="/cart" className={styles.secondaryAction}>Go to Cart</Link>
+            <Link href="/products" className={styles.primaryAction}>
+              Browse Products
+            </Link>
+            <Link href="/cart" className={styles.secondaryAction}>
+              Go to Cart
+            </Link>
           </div>
         </section>
       </div>
@@ -67,7 +75,9 @@ export default function CheckoutPage() {
   return (
     <div className={styles.container}>
       <section className={styles.card}>
-        <h1 className={styles.title}>Checkout ({productCount} {productCount === 1 ? 'item' : 'items'})</h1>
+        <h1 className={styles.title}>
+          Checkout ({productCount} {productCount === 1 ? 'item' : 'items'})
+        </h1>
 
         <ul className={styles.itemList}>
           {items.map((item) => (
@@ -111,7 +121,9 @@ export default function CheckoutPage() {
           >
             {isPlacing ? 'Placing Order...' : 'Place Order'}
           </button>
-          <Link href="/cart" className={styles.secondaryAction}>Back to Cart</Link>
+          <Link href="/cart" className={styles.secondaryAction}>
+            Back to Cart
+          </Link>
         </div>
       </section>
     </div>

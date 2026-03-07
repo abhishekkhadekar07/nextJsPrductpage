@@ -20,12 +20,14 @@ export default function AddToCartButton({ product }: { product: Product }) {
     // Prevent navigation when this button is rendered inside clickable cards/links.
     event.preventDefault();
     event.stopPropagation();
-    dispatch(addItem({
-      id: product.id,
-      title: product.title ?? product.name,
-      price: product.price,
-      image: product.image
-    }));
+    dispatch(
+      addItem({
+        id: product.id,
+        title: product.title ?? product.name,
+        price: product.price,
+        image: product.image,
+      })
+    );
     setShowMessage(true);
     setTimeout(() => setShowMessage(false), 1800);
   }
@@ -40,7 +42,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
           borderRadius: 999,
           padding: '0.48rem 0.9rem',
           fontWeight: 700,
-          fontSize: '0.9rem'
+          fontSize: '0.9rem',
         }}
         aria-label={`Add ${product.title ?? product.name} to cart`}
       >
@@ -60,7 +62,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
             borderRadius: '0.6rem',
             fontSize: '0.82rem',
             whiteSpace: 'nowrap',
-            zIndex: 10
+            zIndex: 10,
           }}
         >
           Added to cart

@@ -6,19 +6,19 @@
 
 ```typescript
 // app/actions/my-action.ts
-'use server'
+'use server';
 
 export async function myAction(formData: FormData) {
   const name = formData.get('name') as string;
-  
+
   // Validation
   if (!name || name.length < 3) {
     return { error: 'Name must be at least 3 characters' };
   }
-  
+
   // Do something (save to DB, call API, etc.)
   // ...
-  
+
   return { success: true, message: 'Done!' };
 }
 ```
@@ -56,7 +56,7 @@ export default function MyPage() {
 ### Pattern 1: Simple Form Submission
 
 ```typescript
-'use server'
+'use server';
 export async function submitForm(formData: FormData) {
   const email = formData.get('email') as string;
   // ... process
@@ -67,14 +67,14 @@ export async function submitForm(formData: FormData) {
 ### Pattern 2: With Validation
 
 ```typescript
-'use server'
+'use server';
 export async function submitForm(formData: FormData) {
   const email = formData.get('email') as string;
-  
+
   if (!email || !email.includes('@')) {
     return { error: 'Invalid email' };
   }
-  
+
   return { success: true };
 }
 ```
@@ -82,11 +82,8 @@ export async function submitForm(formData: FormData) {
 ### Pattern 3: With Previous State (useActionState)
 
 ```typescript
-'use server'
-export async function submitForm(
-  prevState: any,
-  formData: FormData
-) {
+'use server';
+export async function submitForm(prevState: any, formData: FormData) {
   // prevState contains previous result
   // Useful for showing errors that persist
   return { success: true };
@@ -96,7 +93,7 @@ export async function submitForm(
 ### Pattern 4: Redirect After Success
 
 ```typescript
-'use server'
+'use server';
 import { redirect } from 'next/navigation';
 
 export async function submitForm(formData: FormData) {
@@ -108,7 +105,7 @@ export async function submitForm(formData: FormData) {
 ### Pattern 5: Revalidate Data
 
 ```typescript
-'use server'
+'use server';
 import { revalidatePath } from 'next/cache';
 
 export async function submitForm(formData: FormData) {

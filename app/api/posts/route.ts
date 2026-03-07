@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getAllPosts, createPost } from '../../actions/posts';
 
-
 // GET - Fetch all posts or a single post
 export async function GET(request: Request) {
   try {
-    console.log('request for posts',request);
+    console.log('request for posts', request);
     const result = await getAllPosts();
     return NextResponse.json(result);
   } catch (error) {
@@ -13,7 +12,7 @@ export async function GET(request: Request) {
       {
         success: false,
         message: error instanceof Error ? error.message : 'Failed to fetch posts',
-        error: String(error)
+        error: String(error),
       },
       { status: 500 }
     );
@@ -29,19 +28,21 @@ export async function POST(request: Request) {
     const contentType = request.headers.get('content-type');
     if (contentType?.includes('application/json')) {
       body = await request.json();
-    } else if (contentType?.includes('application/x-www-form-urlencoded') ||
-               contentType?.includes('multipart/form-data')) {
+    } else if (
+      contentType?.includes('application/x-www-form-urlencoded') ||
+      contentType?.includes('multipart/form-data')
+    ) {
       const formData = await request.formData();
       body = {
         title: formData.get('title') as string,
         body: formData.get('body') as string,
-        userId: formData.get('userId') as string
+        userId: formData.get('userId') as string,
       };
     } else {
       return NextResponse.json(
         {
           success: false,
-          message: 'Unsupported content type'
+          message: 'Unsupported content type',
         },
         { status: 400 }
       );
@@ -52,7 +53,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Missing required fields: title, body, and userId are required'
+          message: 'Missing required fields: title, body, and userId are required',
         },
         { status: 400 }
       );
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
     const result = await createPost({
       title: body.title,
       body: body.body,
-      userId: userId
+      userId: userId,
     });
 
     if (!result.success) {
@@ -78,10 +79,9 @@ export async function POST(request: Request) {
       {
         success: false,
         message: error instanceof Error ? error.message : 'Failed to create post',
-        error: String(error)
+        error: String(error),
       },
       { status: 500 }
     );
   }
 }
-

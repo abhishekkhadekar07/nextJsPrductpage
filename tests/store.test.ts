@@ -44,10 +44,7 @@ describe('store/postsSlice.ts', () => {
       userId: 9,
     });
 
-    const afterInvalid = postsReducer(
-      stateWithPost,
-      addPost({ title: '   ', body: '   ', userId: 1 })
-    );
+    const afterInvalid = postsReducer(stateWithPost, addPost({ title: '   ', body: '   ', userId: 1 }));
     expect(afterInvalid.items).toHaveLength(stateWithPost.items.length);
   });
 });
@@ -58,7 +55,10 @@ describe('store/stocksSlice.ts', () => {
 
     state = stocksReducer(
       state,
-      hydrateStocks([{ name: '  abc  ', BUY: 100 }, { name: '', BUY: 20 }] as never)
+      hydrateStocks([
+        { name: '  abc  ', BUY: 100 },
+        { name: '', BUY: 20 },
+      ] as never)
     );
     expect(state.hydrated).toBe(true);
     expect(state.items).toEqual([{ name: 'ABC', BUY: 100 }]);

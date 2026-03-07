@@ -67,7 +67,13 @@ export default function Page() {
         <h1 className={styles.title}>Stocks</h1>
         <div className={styles.toolbarControls}>
           <span className={`${styles.liveBadge} ${styles[`liveBadge_${status}`]}`}>
-            {status === 'live' ? 'Live' : status === 'connecting' ? 'Connecting' : status === 'error' ? 'Error' : 'Off'}
+            {status === 'live'
+              ? 'Live'
+              : status === 'connecting'
+                ? 'Connecting'
+                : status === 'error'
+                  ? 'Error'
+                  : 'Off'}
           </span>
           <button
             type="button"
@@ -94,10 +100,7 @@ export default function Page() {
               <span className={styles.stockValue}>BUY: {s.BUY}</span>
             </div>
             <div className={styles.actions}>
-              <Link
-                href={`/Stocks/${encodeURIComponent(s.name)}/edit`}
-                className={styles.editLink}
-              >
+              <Link href={`/Stocks/${encodeURIComponent(s.name)}/edit`} className={styles.editLink}>
                 Edit
               </Link>
               <DeleteStockButton name={s.name} />

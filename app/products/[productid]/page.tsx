@@ -26,7 +26,9 @@ export default async function ProductPage(props: ProductPageProps) {
 
   return (
     <div className={styles.container}>
-      <Link href="/products" className={styles.back}>{'<-'} Back to products</Link>
+      <Link href="/products" className={styles.back}>
+        {'<-'} Back to products
+      </Link>
       {/* PPR: render page frame immediately and stream detail payload when ready. */}
       <Suspense fallback={<ProductDetailsFallback />}>
         <ProductDetails productId={productId} />
@@ -71,7 +73,9 @@ async function ProductDetails({ productId }: { productId: string }) {
         <h1 className={styles.title}>{product.title ?? product.name}</h1>
         <p className={styles.price}>${product.price?.toFixed?.(2) ?? ''}</p>
         {product.rating?.rate !== undefined && (
-          <p className={styles.rating}>Rating: {product.rating.rate} ({product.rating.count})</p>
+          <p className={styles.rating}>
+            Rating: {product.rating.rate} ({product.rating.count})
+          </p>
         )}
 
         <div className={styles.description}>
@@ -80,8 +84,12 @@ async function ProductDetails({ productId }: { productId: string }) {
 
         <AddToCartForm product={product} />
         <div className={styles.nextActions}>
-          <Link href="/cart" className={styles.secondaryAction}>View Cart</Link>
-          <Link href="/checkout" className={styles.primaryAction}>Checkout</Link>
+          <Link href="/cart" className={styles.secondaryAction}>
+            View Cart
+          </Link>
+          <Link href="/checkout" className={styles.primaryAction}>
+            Checkout
+          </Link>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -58,43 +58,59 @@ export default function Navbar() {
   return (
     <header className={styles.container}>
       <div className={styles.brand}>
-        <Link href="/" className={styles.brandLink}>Home</Link>
+        <Link href="/" className={styles.brandLink}>
+          Home
+        </Link>
       </div>
 
       <nav className={styles.nav}>
         {authState.status === 'authenticated' && (
-          <Link href="/products" className={styles.link}>Products</Link>
+          <Link href="/products" className={styles.link}>
+            Products
+          </Link>
         )}
         {authState.status === 'authenticated' && (
-          <Link href="/posts" className={styles.link}>Posts</Link>
+          <Link href="/posts" className={styles.link}>
+            Posts
+          </Link>
         )}
         {authState.status === 'authenticated' && (
-          <Link href="/Stocks" className={styles.link}>Stocks</Link>
+          <Link href="/Stocks" className={styles.link}>
+            Stocks
+          </Link>
         )}
         {authState.status === 'authenticated' && (
-          <Link href="/cart" className={styles.link}>Cart ({total})</Link>
+          <Link href="/cart" className={styles.link}>
+            Cart ({total})
+          </Link>
         )}
         {authState.status === 'authenticated' && total > 0 && (
-          <Link href="/checkout" className={styles.link}>Checkout</Link>
+          <Link href="/checkout" className={styles.link}>
+            Checkout
+          </Link>
         )}
         <div className={styles.auth}>
-          {authState.status === 'loading' && (
-            <span className={styles.authBadge}>Checking access...</span>
-          )}
+          {authState.status === 'loading' && <span className={styles.authBadge}>Checking access...</span>}
           {authState.status === 'unauthenticated' && (
-            <Link href="/login" className={styles.authButton}>Login</Link>
+            <Link href="/login" className={styles.authButton}>
+              Login
+            </Link>
           )}
           {authState.status === 'authenticated' && (
             <>
               <span className={styles.authBadge}>Signed in as {authState.username}</span>
-              <button type="button" className={styles.authButton} onClick={handleLogout} disabled={isLoggingOut}>
+              <button
+                type="button"
+                className={styles.authButton}
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+              >
                 {isLoggingOut ? 'Signing out...' : 'Logout'}
               </button>
             </>
           )}
         </div>
       </nav>
-     
     </header>
   );
 }
