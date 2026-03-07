@@ -82,7 +82,13 @@ pipeline {
 
     stage('Docker Build') {
       when {
-        branch 'master'
+        expression {
+          def branchName = env.BRANCH_NAME ?: env.GIT_BRANCH ?: ''
+          return branchName == 'master' ||
+                 branchName == 'main' ||
+                 branchName.endsWith('/master') ||
+                 branchName.endsWith('/main')
+        }
       }
       steps {
         script {
@@ -98,7 +104,13 @@ pipeline {
 
     stage('Docker Push') {
       when {
-        branch 'master'
+        expression {
+          def branchName = env.BRANCH_NAME ?: env.GIT_BRANCH ?: ''
+          return branchName == 'master' ||
+                 branchName == 'main' ||
+                 branchName.endsWith('/master') ||
+                 branchName.endsWith('/main')
+        }
       }
       steps {
         script {
