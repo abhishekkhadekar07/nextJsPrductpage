@@ -108,6 +108,7 @@ pipeline {
           def imageTag = env.BUILD_NUMBER
           echo "Docker Build branchName=${branchName}"
           echo "Docker Build imageTag=${imageTag}"
+          echo "Docker Build env=${env}"
           withCredentials([
             usernamePassword(
               credentialsId: env.DOCKER_CREDENTIALS_ID,
