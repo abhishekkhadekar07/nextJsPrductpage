@@ -170,6 +170,10 @@
   border-radius: 999px;
   padding: 0.72rem;
   font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .clearButton {

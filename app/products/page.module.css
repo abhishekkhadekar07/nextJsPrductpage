@@ -89,6 +89,12 @@
   color: #4f5f79;
 }
 
+.resultsCount {
+  margin: 0;
+  color: #4f5f79;
+  font-weight: 600;
+}
+
 .grid {
   list-style: none;
   padding: 0;
@@ -117,6 +123,8 @@
   background: rgba(255, 255, 255, 0.88);
   box-shadow: 0 14px 28px rgba(17, 70, 130, 0.1);
   animation: cardIn 380ms ease-out;
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 
 .card:hover {
@@ -156,6 +164,28 @@
   padding: 0.9rem 1rem 1rem;
   display: grid;
   gap: 0.45rem;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.2rem 1rem 1rem;
+}
+
+.checkoutLink {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.48rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #144270;
+  border: 1px solid #c6d9f2;
+  background: #ffffff;
 }
 
 .productTitle {

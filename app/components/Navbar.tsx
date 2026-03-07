@@ -74,6 +74,9 @@ export default function Navbar() {
         {authState.status === 'authenticated' && (
           <Link href="/cart" className={styles.link}>Cart ({total})</Link>
         )}
+        {authState.status === 'authenticated' && total > 0 && (
+          <Link href="/checkout" className={styles.link}>Checkout</Link>
+        )}
         <div className={styles.auth}>
           {authState.status === 'loading' && (
             <span className={styles.authBadge}>Checking access...</span>

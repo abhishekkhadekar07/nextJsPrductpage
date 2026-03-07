@@ -129,7 +129,9 @@ export default function CartPage() {
           <span className={styles.summaryLabel}>Total:</span>
           <span className={`${styles.summaryValue} ${styles.totalValue}`}>${subtotal.toFixed(2)}</span>
         </div>
-        <button className={styles.checkoutButton}>Proceed to Checkout</button>
+        <Link href="/checkout" className={styles.checkoutButton}>
+          Proceed to Checkout
+        </Link>
         <button onClick={handleClearCart} className={styles.clearButton}>
           Clear Cart
         </button>

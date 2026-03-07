@@ -79,6 +79,10 @@ async function ProductDetails({ productId }: { productId: string }) {
         </div>
 
         <AddToCartForm product={product} />
+        <div className={styles.nextActions}>
+          <Link href="/cart" className={styles.secondaryAction}>View Cart</Link>
+          <Link href="/checkout" className={styles.primaryAction}>Checkout</Link>
+        </div>
       </div>
     </div>
   );

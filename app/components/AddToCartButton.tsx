@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../store/cartSlice';
 
@@ -16,7 +16,10 @@ export default function AddToCartButton({ product }: { product: Product }) {
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
 
-  function handleAdd() {
+  function handleAdd(event: MouseEvent<HTMLButtonElement>) {
+    // Prevent navigation when this button is rendered inside clickable cards/links.
+    event.preventDefault();
+    event.stopPropagation();
     dispatch(addItem({
       id: product.id,
       title: product.title ?? product.name,
@@ -31,6 +34,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
     <div style={{ position: 'relative' }}>
       <button
         onClick={handleAdd}
+        type="button"
         style={{
           marginTop: 8,
           borderRadius: 999,
