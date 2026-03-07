@@ -9,7 +9,7 @@ pipeline {
   environment {
     CI = 'true'
     NODE_ENV = 'test'
-    DOCKER_IMAGE_REPO = 'your-dockerhub-username/productpage'
+    DOCKER_IMAGE_NAME = 'productpage'
     DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
   }
 
@@ -93,10 +93,19 @@ pipeline {
       steps {
         script {
           def imageTag = env.BUILD_NUMBER
-          if (isUnix()) {
-            sh "docker build -t ${env.DOCKER_IMAGE_REPO}:${imageTag} -t ${env.DOCKER_IMAGE_REPO}:latest ."
-          } else {
-            bat "docker build -t ${env.DOCKER_IMAGE_REPO}:${imageTag} -t ${env.DOCKER_IMAGE_REPO}:latest ."
+          withCredentials([
+            usernamePassword(
+              credentialsId: env.DOCKER_CREDENTIALS_ID,
+              usernameVariable: 'DOCKERHUB_USERNAME',
+              passwordVariable: 'DOCKERHUB_TOKEN'
+            )
+          ]) {
+            def imageRepo = "${DOCKERHUB_USERNAME}/${env.DOCKER_IMAGE_NAME}"
+            if (isUnix()) {
+              sh "docker build -t ${imageRepo}:${imageTag} -t ${imageRepo}:latest ."
+            } else {
+              bat "docker build -t ${imageRepo}:${imageTag} -t ${imageRepo}:latest ."
+            }
           }
         }
       }
@@ -122,20 +131,21 @@ pipeline {
               passwordVariable: 'DOCKERHUB_TOKEN'
             )
           ]) {
+            def imageRepo = "${DOCKERHUB_USERNAME}/${env.DOCKER_IMAGE_NAME}"
             if (isUnix()) {
               sh '''
                 echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
               '''
-              sh "docker push ${env.DOCKER_IMAGE_REPO}:${imageTag}"
-              sh "docker push ${env.DOCKER_IMAGE_REPO}:latest"
+              sh "docker push ${imageRepo}:${imageTag}"
+              sh "docker push ${imageRepo}:latest"
               sh 'docker logout'
             } else {
               bat '''
                 @echo off
                 echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USERNAME% --password-stdin
               '''
-              bat "docker push ${env.DOCKER_IMAGE_REPO}:${imageTag}"
-              bat "docker push ${env.DOCKER_IMAGE_REPO}:latest"
+              bat "docker push ${imageRepo}:${imageTag}"
+              bat "docker push ${imageRepo}:latest"
               bat 'docker logout'
             }
           }
