@@ -20,6 +20,18 @@ pipeline {
       }
     }
 
+    stage('Debug Env') {
+      steps {
+        script {
+          echo "BRANCH_NAME=${env.BRANCH_NAME}"
+          echo "GIT_BRANCH=${env.GIT_BRANCH}"
+          echo "GIT_COMMIT=${env.GIT_COMMIT}"
+          echo "BUILD_NUMBER=${env.BUILD_NUMBER}"
+          echo "JOB_NAME=${env.JOB_NAME}"
+        }
+      }
+    }
+
     stage('Install') {
       steps {
         script {
@@ -92,7 +104,10 @@ pipeline {
       }
       steps {
         script {
+          def branchName = env.BRANCH_NAME ?: env.GIT_BRANCH ?: ''
           def imageTag = env.BUILD_NUMBER
+          echo "Docker Build branchName=${branchName}"
+          echo "Docker Build imageTag=${imageTag}"
           withCredentials([
             usernamePassword(
               credentialsId: env.DOCKER_CREDENTIALS_ID,
@@ -100,6 +115,10 @@ pipeline {
               passwordVariable: 'DOCKERHUB_TOKEN'
             )
           ]) {
+            echo "Docker Build credentialsId=${env.DOCKER_CREDENTIALS_ID}"
+            echo "Docker Build DOCKERHUB_USERNAME=${DOCKERHUB_USERNAME}"
+            echo "Docker Build DOCKERHUB_TOKEN_SET=${DOCKERHUB_TOKEN ? 'yes' : 'no'}"
+            echo "Docker Build DOCKERHUB_TOKEN_LENGTH=${DOCKERHUB_TOKEN?.length() ?: 0}"
             def imageRepo = "${DOCKERHUB_USERNAME}/${env.DOCKER_IMAGE_NAME}"
             if (isUnix()) {
               sh "docker build -t ${imageRepo}:${imageTag} -t ${imageRepo}:latest ."
@@ -123,7 +142,10 @@ pipeline {
       }
       steps {
         script {
+          def branchName = env.BRANCH_NAME ?: env.GIT_BRANCH ?: ''
           def imageTag = env.BUILD_NUMBER
+          echo "Docker Push branchName=${branchName}"
+          echo "Docker Push imageTag=${imageTag}"
           withCredentials([
             usernamePassword(
               credentialsId: env.DOCKER_CREDENTIALS_ID,
@@ -131,6 +153,10 @@ pipeline {
               passwordVariable: 'DOCKERHUB_TOKEN'
             )
           ]) {
+            echo "Docker Push credentialsId=${env.DOCKER_CREDENTIALS_ID}"
+            echo "Docker Push DOCKERHUB_USERNAME=${DOCKERHUB_USERNAME}"
+            echo "Docker Push DOCKERHUB_TOKEN_SET=${DOCKERHUB_TOKEN ? 'yes' : 'no'}"
+            echo "Docker Push DOCKERHUB_TOKEN_LENGTH=${DOCKERHUB_TOKEN?.length() ?: 0}"
             def imageRepo = "${DOCKERHUB_USERNAME}/${env.DOCKER_IMAGE_NAME}"
             if (isUnix()) {
               sh '''
