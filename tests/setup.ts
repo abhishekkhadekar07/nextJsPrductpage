@@ -24,13 +24,16 @@ vi.mock('next/image', () => ({
   default: ({
     alt = '',
     src = '',
-    unoptimized: _unoptimized,
     ...props
   }: {
     alt?: string;
     src?: string;
     unoptimized?: boolean;
-  }) => React.createElement('img', { alt, src, ...props }),
+  }) => {
+    const { unoptimized, ...imageProps } = props;
+    void unoptimized;
+    return React.createElement('img', { alt, src, ...imageProps });
+  },
 }));
 
 vi.mock('next/navigation', () => ({

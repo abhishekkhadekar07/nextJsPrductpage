@@ -11,7 +11,7 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:run": "vitest run",
-    "test:jest": "jest --config jest.config.cjs --runInBand"
+    "test:jest": "jest --config jest.config.mjs --runInBand"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
