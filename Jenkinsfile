@@ -56,6 +56,18 @@ pipeline {
       }
     }
 
+    stage('Prettier Check') {
+      steps {
+        script {
+          if (isUnix()) {
+            sh 'npm run format:check'
+          } else {
+            bat 'npm run format:check'
+          }
+        }
+      }
+    }
+
     stage('Vitest') {
       steps {
         script {
