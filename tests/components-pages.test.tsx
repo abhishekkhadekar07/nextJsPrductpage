@@ -1,7 +1,7 @@
 import React from 'react';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cartReducer from '@/store/cartSlice';
 import stocksReducer from '@/store/stocksSlice';
@@ -148,15 +148,26 @@ describe('client components and pages', () => {
   });
 
   it('CheckoutPage confirms order after place order click', async () => {
-    vi.useFakeTimers();
+    const user = userEvent.setup();
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ success: true, data: { id: 77 } }), {
+        status: 201,
+        headers: { 'content-type': 'application/json' },
+      })
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
     renderWithStore(<CheckoutPage />, {
       cart: { items: [{ id: 1, title: 'Bag', price: 50, qty: 1 }] },
     });
 
-    await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /place order/i }));
-      await vi.advanceTimersByTimeAsync(700);
-    });
+    await user.click(screen.getByRole('button', { name: /place order/i }));
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/orders',
+      expect.objectContaining({
+        method: 'POST',
+      })
+    );
     expect(screen.getByText('Order confirmed')).toBeInTheDocument();
   });
 

@@ -61,6 +61,45 @@ describe('app/api/products/route.ts', () => {
   });
 });
 
+describe('app/api/orders/route.ts', () => {
+  it('GET returns unauthorized when auth cookie is missing', async () => {
+    setCookies({});
+    const { GET } = await import('@/app/api/orders/route');
+    const response = await GET();
+
+    expect(response.status).toBe(401);
+    await expect(response.json()).resolves.toMatchObject({ success: false, message: 'Unauthorized' });
+  });
+
+  it('POST creates order for authenticated user and GET returns user orders', async () => {
+    setCookies({ [AUTH_COOKIE_NAME]: createAuthCookieValue('alice') });
+    const { GET, POST } = await import('@/app/api/orders/route');
+
+    const createResponse = await POST(
+      new Request('http://localhost/api/orders', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          items: [{ id: 101, title: 'Test Product', price: 20, qty: 2 }],
+        }),
+      })
+    );
+    const createData = await createResponse.json();
+
+    expect(createResponse.status).toBe(201);
+    expect(createData.success).toBe(true);
+
+    const listResponse = await GET();
+    const listData = await listResponse.json();
+
+    expect(listResponse.status).toBe(200);
+    expect(listData.success).toBe(true);
+    expect(Array.isArray(listData.data)).toBe(true);
+    expect(listData.data.length).toBeGreaterThan(0);
+    expect(listData.data[0].username).toBe('alice');
+  });
+});
+
 describe('app/api/stocks/route.ts', () => {
   it('GET returns stock list', async () => {
     const { GET } = await import('@/app/api/stocks/route');

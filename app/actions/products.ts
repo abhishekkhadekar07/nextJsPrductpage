@@ -14,6 +14,7 @@ export interface Product {
   description: string;
   image: string;
   category?: string;
+  createdBy?: string;
   rating?: {
     rate: number;
     count: number;
@@ -154,6 +155,7 @@ function sanitizeProducts(raw: unknown): Product[] {
         description: String(source.description ?? ''),
         image: String(source.image ?? ''),
         category: source.category,
+        createdBy: source.createdBy ? String(source.createdBy) : undefined,
         rating: source.rating
           ? {
               rate: Number(source.rating.rate),
@@ -238,6 +240,7 @@ export async function createProduct(productData: {
   description: string;
   image: string;
   category?: string;
+  createdBy?: string;
 }) {
   try {
     if (!productData.title || !productData.price || !productData.description || !productData.image) {
@@ -263,6 +266,7 @@ export async function createProduct(productData: {
       description: productData.description,
       image: productData.image,
       category: productData.category || 'Uncategorized',
+      createdBy: productData.createdBy,
       rating: { rate: 0, count: 0 },
     };
 

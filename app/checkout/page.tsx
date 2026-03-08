@@ -12,6 +12,15 @@ type CheckoutItem = {
   title?: string;
   price?: number;
   qty?: number;
+  image?: string;
+};
+
+type PlaceOrderResponse = {
+  success: boolean;
+  message?: string;
+  data?: {
+    id?: number;
+  };
 };
 
 export default function CheckoutPage() {
@@ -19,6 +28,8 @@ export default function CheckoutPage() {
   const items = useSelector((state: RootState) => state.cart?.items ?? []) as CheckoutItem[];
   const [isPlacing, setIsPlacing] = useState(false);
   const [isPlaced, setIsPlaced] = useState(false);
+  const [placedOrderId, setPlacedOrderId] = useState<number | null>(null);
+  const [orderError, setOrderError] = useState<string | null>(null);
 
   const productCount = items.reduce((sum, item) => sum + (item.qty || 0), 0);
   const subtotal = items.reduce((sum, item) => sum + (item.price || 0) * (item.qty || 0), 0);
@@ -28,10 +39,31 @@ export default function CheckoutPage() {
 
   async function handlePlaceOrder() {
     setIsPlacing(true);
-    await new Promise((resolve) => setTimeout(resolve, 700));
-    dispatch(clearCart());
-    setIsPlaced(true);
-    setIsPlacing(false);
+    setOrderError(null);
+
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items }),
+      });
+
+      const result: PlaceOrderResponse = await response.json();
+      if (!response.ok || !result.success) {
+        setOrderError(result.message || 'Failed to place order. Please try again.');
+        return;
+      }
+
+      dispatch(clearCart());
+      setPlacedOrderId(typeof result.data?.id === 'number' ? result.data.id : null);
+      setIsPlaced(true);
+    } catch {
+      setOrderError('Network error while placing order. Please try again.');
+    } finally {
+      setIsPlacing(false);
+    }
   }
 
   if (isPlaced) {
@@ -40,9 +72,13 @@ export default function CheckoutPage() {
         <section className={styles.card}>
           <h1 className={styles.title}>Order confirmed</h1>
           <p className={styles.text}>Your checkout is complete. Thank you for your purchase.</p>
+          {placedOrderId ? <p className={styles.text}>Order ID: #{placedOrderId}</p> : null}
           <div className={styles.actions}>
             <Link href="/products" className={styles.primaryAction}>
               Continue Shopping
+            </Link>
+            <Link href="/orders" className={styles.secondaryAction}>
+              View Orders
             </Link>
             <Link href="/cart" className={styles.secondaryAction}>
               Go to Cart
@@ -111,6 +147,8 @@ export default function CheckoutPage() {
             <strong>${total.toFixed(2)}</strong>
           </div>
         </div>
+
+        {orderError ? <p className={styles.text}>{orderError}</p> : null}
 
         <div className={styles.actions}>
           <button

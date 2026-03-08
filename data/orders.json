@@ -1,0 +1,103 @@
+[
+  {
+    "id": 5,
+    "username": "abhishek_khadekar",
+    "createdAt": "2026-03-08T07:16:08.068Z",
+    "items": [
+      {
+        "id": 1,
+        "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+        "price": 109.95,
+        "qty": 1,
+        "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+      }
+    ],
+    "totals": {
+      "subtotal": 109.95,
+      "tax": 8.8,
+      "shipping": 0,
+      "total": 118.75,
+      "totalItems": 1
+    }
+  },
+  {
+    "id": 4,
+    "username": "alice",
+    "createdAt": "2026-03-08T07:13:08.839Z",
+    "items": [
+      {
+        "id": 101,
+        "title": "Test Product",
+        "price": 20,
+        "qty": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 40,
+      "tax": 3.2,
+      "shipping": 9.99,
+      "total": 53.19,
+      "totalItems": 2
+    }
+  },
+  {
+    "id": 3,
+    "username": "alice",
+    "createdAt": "2026-03-08T07:11:28.912Z",
+    "items": [
+      {
+        "id": 101,
+        "title": "Test Product",
+        "price": 20,
+        "qty": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 40,
+      "tax": 3.2,
+      "shipping": 9.99,
+      "total": 53.19,
+      "totalItems": 2
+    }
+  },
+  {
+    "id": 2,
+    "username": "alice",
+    "createdAt": "2026-03-08T07:09:38.112Z",
+    "items": [
+      {
+        "id": 101,
+        "title": "Test Product",
+        "price": 20,
+        "qty": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 40,
+      "tax": 3.2,
+      "shipping": 9.99,
+      "total": 53.19,
+      "totalItems": 2
+    }
+  },
+  {
+    "id": 1,
+    "username": "alice",
+    "createdAt": "2026-03-08T07:09:14.059Z",
+    "items": [
+      {
+        "id": 101,
+        "title": "Test Product",
+        "price": 20,
+        "qty": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 40,
+      "tax": 3.2,
+      "shipping": 9.99,
+      "total": 53.19,
+      "totalItems": 2
+    }
+  }
+]

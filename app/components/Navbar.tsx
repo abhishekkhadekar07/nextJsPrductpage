@@ -84,6 +84,11 @@ export default function Navbar() {
             Cart ({total})
           </Link>
         )}
+        {authState.status === 'authenticated' && (
+          <Link href="/orders" className={styles.link}>
+            Orders
+          </Link>
+        )}
         {authState.status === 'authenticated' && total > 0 && (
           <Link href="/checkout" className={styles.link}>
             Checkout

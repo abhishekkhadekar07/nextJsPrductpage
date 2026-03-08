@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getAllProducts, createProduct } from '../../actions/products';
-import { AUTH_COOKIE_NAME } from '../../../lib/auth';
+import { AUTH_COOKIE_NAME, parseAuthCookieValue } from '../../../lib/auth';
 
 // GET - Fetch all products
 export async function GET(request: Request) {
   try {
     const authCookie = (await cookies()).get(AUTH_COOKIE_NAME);
-    if (!authCookie?.value) {
+    const authUser = parseAuthCookieValue(authCookie?.value);
+    if (!authUser?.username) {
       return NextResponse.json(
         {
           success: false,
@@ -35,7 +36,8 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const authCookie = (await cookies()).get(AUTH_COOKIE_NAME);
-    if (!authCookie?.value) {
+    const authUser = parseAuthCookieValue(authCookie?.value);
+    if (!authUser?.username) {
       return NextResponse.json(
         {
           success: false,
@@ -111,6 +113,7 @@ export async function POST(request: Request) {
       description: body.description,
       image: body.image,
       category: body.category as string,
+      createdBy: authUser.username,
     });
 
     if (!result.success) {
