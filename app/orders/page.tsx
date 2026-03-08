@@ -62,7 +62,11 @@ export default async function OrdersPage() {
                 <span>{order.totals.totalItems} items</span>
                 <span>Subtotal: ${order.totals.subtotal.toFixed(2)}</span>
                 <span>Tax: ${order.totals.tax.toFixed(2)}</span>
-                <span>{order.totals.shipping === 0 ? 'Shipping: Free' : `Shipping: $${order.totals.shipping.toFixed(2)}`}</span>
+                <span>
+                  {order.totals.shipping === 0
+                    ? 'Shipping: Free'
+                    : `Shipping: $${order.totals.shipping.toFixed(2)}`}
+                </span>
               </div>
             </li>
           ))}
